@@ -1,0 +1,11 @@
+{
+  "HomePage": {
+    "title": "Hello World!"
+  },
+  "About": {
+    "title": "Sobre",
+    "description": "Descrição sobre a página",
+    "titulo-1": "Título 1",
+    "botão-formulario": "Enviar"
+  }
+}
