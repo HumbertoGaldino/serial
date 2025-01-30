@@ -7,5 +7,17 @@
     "description": "Descrição sobre a página",
     "titulo-1": "Título 1",
     "botão-formulario": "Enviar"
+  },
+  "SignUp": {
+    "title": "Sign Up",
+    "title-register": "Welcome to Serial",
+    "subtitle-register": "Create your login to start your series and movie journal.",
+    "placeholder-name": "First Name",
+    "placeholder-lastname": "Last Name",
+    "placeholder-username": "Username",
+    "placeholder-email": "Email",
+    "placeholder-password": "Password",
+    "placeholder-retype": "Confirm Password",
+    "register-button": "Sign Up"
   }
 }
