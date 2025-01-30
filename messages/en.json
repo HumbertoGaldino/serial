@@ -19,5 +19,13 @@
     "placeholder-password": "Password",
     "placeholder-retype": "Confirm Password",
     "register-button": "Sign Up"
+  },
+  "SignIn": {
+    "title": "Login",
+    "title-login": "Welcome to Serial",
+    "placeholder-email": "Email",
+    "placeholder-password": "Password",
+    "login-button": "Login",
+    "register-button": "Sign Up"
   }
 }

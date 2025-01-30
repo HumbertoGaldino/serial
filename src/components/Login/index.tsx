@@ -8,9 +8,9 @@ import {
   IconBrandGoogle,
 } from "@tabler/icons-react";
 
-export default function SignupForm() {
+export default function SigninForm() {
 
-  const t = useTranslations("SignUp");
+  const t = useTranslations("SignIn");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -19,27 +19,10 @@ export default function SignupForm() {
   return (
     <div className="max-w-md w-full rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-gradient-to-b from-black dark:to-neutral-950">
       <h2 className="font-bold text-xl text-neutral-200">
-        {t("title-register")}
+        {t("title-login")}
       </h2>
-      <p className="text-sm max-w-sm mt-2 text-neutral-300">
-        {t("subtitle-register")}
-      </p>
 
       <form className="my-8" onSubmit={handleSubmit}>
-        <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
-          <LabelInputContainer>
-            <Label htmlFor="firstname">{t("placeholder-name")}</Label>
-            <Input id="firstname" placeholder={t("placeholder-name")} type="text" />
-          </LabelInputContainer>
-          <LabelInputContainer>
-            <Label htmlFor="lastname">{t("placeholder-lastname")}</Label>
-            <Input id="lastname" placeholder={t("placeholder-lastname")} type="text" />
-          </LabelInputContainer>
-        </div>
-        <LabelInputContainer className="mb-4">
-          <Label htmlFor="username">{t("placeholder-username")}</Label>
-          <Input id="username" placeholder="Username" type="text" />
-        </LabelInputContainer>
         <LabelInputContainer className="mb-4">
           <Label htmlFor="email">{t("placeholder-email")}</Label>
           <Input id="email" placeholder="E-mail" type="email" />
@@ -48,17 +31,17 @@ export default function SignupForm() {
           <Label htmlFor="password">{t("placeholder-password")}</Label>
           <Input id="password" placeholder="••••••••" type="password" />
         </LabelInputContainer>
-        <LabelInputContainer className="mb-8">
-          <Label htmlFor="retypepassword">{t("placeholder-retype")}</Label>
-          <Input
-            id="retypepassword"
-            placeholder="••••••••"
-            type="password"
-          />
-        </LabelInputContainer>
 
         <button
-          className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+          className="bg-gradient-to-br relative group/btn mb-4 from-zinc-900 to-zinc-900  block bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+          type="submit"
+        >
+          {t("login-button")} &rarr;
+          <BottomGradient />
+        </button>
+
+        <button
+          className="bg-gradient-to-br relative group/btn via-violet-950 from-indigo-900 block bg-purple w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
           type="submit"
         >
           {t("register-button")} &rarr;
