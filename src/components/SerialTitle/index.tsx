@@ -9,7 +9,7 @@ const bebasNeue = Bebas_Neue({
   weight: '400' 
 });
  
-export default function SerialSparkles() {
+export default function SerialTitle() {
   return (
     <div className={`${bebasNeue.className} flex flex-col items-center justify-center overflow-hidden rounded-md`}>
       <Image 
