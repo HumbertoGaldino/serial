@@ -32,7 +32,16 @@
     "title": "Profile",
     "followers": "Followers",
     "following": "Following",
-    "tvshows": "Séries",
-    "movies": "Filmes"
+    "tvshows": "TV Shows",
+    "movies": "Movies",
+    "favorites": "Favorites",
+    "timekeeperTv": "Time Watching TV Shows",
+    "timekeeperMovies": "Time Watching Movies",
+    "months": "Months",
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "count-episodes": "Episodes Watched",
+    "count-movies": "Movies Watched"
   }
 }
