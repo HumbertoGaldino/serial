@@ -3,6 +3,11 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { cn } from "@/src/lib/utils";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination } from "swiper/modules";
+
 type CardProps = {
   title: string;
   poster_path: string;
@@ -50,20 +55,30 @@ export const Card = React.memo(
 
 Card.displayName = "Card";
 
-export function FocusCards({ cards }: { cards: CardProps[] }) {
+export function FavoritesCards({ cards }: { cards: CardProps[] }) {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-10 w-full">
+    <Swiper
+      spaceBetween={10}
+      slidesPerView={1} // Número de itens visíveis por vez
+      breakpoints={{
+        768: { slidesPerView: 4 }, // No desktop, exibe 4 por vez
+      }}
+      pagination={{ clickable: true }}
+      modules={[Pagination]}
+      className="w-full"
+    >
       {cards.map((card, index) => (
-        <Card
-          key={card.title}
-          card={card}
-          index={index}
-          hovered={hovered}
-          setHovered={setHovered}
-        />
+        <SwiperSlide key={card.title}>
+          <Card
+            card={card}
+            index={index}
+            hovered={hovered}
+            setHovered={setHovered}
+          />
+        </SwiperSlide>
       ))}
-    </div>
+    </Swiper>
   );
 }
