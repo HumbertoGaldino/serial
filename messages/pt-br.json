@@ -33,6 +33,15 @@
     "followers": "Seguidores",
     "following": "Seguindo",
     "tvshows": "Séries",
-    "movies": "Filmes"
+    "movies": "Filmes",
+    "favorites": "Favoritos",
+    "timekeeperTv": "Tempo vendo Séries",
+    "timekeeperMovies": "Tempo vendo Filmes",
+    "months": "Meses",
+    "days": "Dias",
+    "hours": "Horas",
+    "minutes": "Minutos",
+    "count-episodes": "Episódios Assistidos",
+    "count-movies": "Filmes Assistidos"
   }
 }

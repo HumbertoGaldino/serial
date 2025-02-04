@@ -17,7 +17,7 @@
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.8.0",
     "clsx": "^2.1.1",
-    "motion": "^12.0.6",
+    "motion": "^12.1.0",
     "next": "15.1.6",
     "next-intl": "^3.26.3",
     "react": "^19.0.0",
