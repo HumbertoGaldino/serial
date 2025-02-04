@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
-import { cn } from "../../lib/utils";
+import { Label } from "@/src/components/ui/label";
+import { Input } from "@/src/components/ui/input";
+import { cn } from "@/src/lib/utils";
 import { useTranslations } from "next-intl";
 import {
   IconBrandGoogle,

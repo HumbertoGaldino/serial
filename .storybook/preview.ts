@@ -1,4 +1,6 @@
 import type { Preview } from "@storybook/react";
+import { NextIntlClientProvider } from "next-intl";
+import { withNextIntl } from "./withNextIntl";
 
 const preview: Preview = {
   parameters: {
@@ -9,6 +11,7 @@ const preview: Preview = {
       },
     },
   },
+  decorators: [withNextIntl],
 };
 
 export default preview;

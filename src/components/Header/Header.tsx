@@ -23,7 +23,7 @@ export default function Header() {
         <Image src={headerLogo} alt="Header Logo" width={100} height={40} />
         <nav className="ml-10 flex space-x-8 tracking-[0.8em]">
           <a
-            href="#perfil"
+            href="/profile"
             className="text-white border-r border-white pr-6 hover:text-gray-500 transition-colors duration-300"
           >
             PERFIL
