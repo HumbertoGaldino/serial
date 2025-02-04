@@ -27,5 +27,12 @@
     "placeholder-password": "Password",
     "login-button": "Login",
     "register-button": "Sign Up"
+  },
+  "Profile": {
+    "title": "Profile",
+    "followers": "Followers",
+    "following": "Following",
+    "tvshows": "Séries",
+    "movies": "Filmes"
   }
 }
