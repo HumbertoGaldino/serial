@@ -5,6 +5,5 @@ export async function fetchDiscoverMovies(page: number = 1) {
     `${process.env.API_URL}/api/discover/movies/${page}`
   );
   const data = await response.json();
-  console.log(data.results);
   return data;
 }

@@ -2,8 +2,7 @@ import Header from "@/src/components/Header/Header";
 import Image from "next/image";
 import { Bebas_Neue } from "next/font/google";
 import { Athiti } from "next/font/google";
-import MediaCarousel from "@/src/components/MediaCarousel/MediaCarousel";
-
+import DiscoverFocusCards from "@/src/components/DiscoverFocusCards/DiscoverFocusCards";
 const athiti = Athiti({
   subsets: ["latin"],
   weight: ["400"],
@@ -18,7 +17,7 @@ export default function Discover() {
   return (
     <>
       <Header />
-      <main className="min-h-screen h-full flex flex-col items-center bg-black">
+      <main className="w-full min-h-screen h-full flex flex-col items-center bg-black">
         <div className="flex flex-col items-center justify-center gap-6 mt-20">
           <Image src="/bussola.png" alt="bussola" width={100} height={100} />
           <h1
@@ -29,7 +28,7 @@ export default function Discover() {
           <div className="relative mt-10">
             <input
               type="text"
-              placeholder="PESQUISAR SÉRIES"
+              placeholder="PESQUISAR TÍTULOS"
               className={`${athiti.className} w-[51rem] text-[1.5em] tracking-[0.4em] px-4 py-2 rounded-full text-center bg-gray-800 text-white focus:outline-none`}
               aria-label="Search User"
               tabIndex={0}
@@ -56,11 +55,11 @@ export default function Discover() {
             </button>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-center gap-6 mt-20">
+        <div className="w-[80%] flex flex-col items-center justify-center gap-6 mt-20">
           <h2 className={`${bebasNeue.className} text-purple text-[5.6em] tracking-[0.6em] mr-[-0.6em]`}>
-            FILMES
+            LANÇAMENTOS
           </h2>
-          <MediaCarousel />
+          <DiscoverFocusCards />
         </div>
       </main>
     </>
