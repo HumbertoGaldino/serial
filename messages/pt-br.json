@@ -19,5 +19,20 @@
     "placeholder-password": "Senha",
     "placeholder-retype": "Confirme a senha",
     "register-button": "Inscrever-se"
+  },
+  "SignIn": {
+    "title": "Login",
+    "title-login": "Bem vindo(a) ao Serial",
+    "placeholder-email": "E-mail",
+    "placeholder-password": "Senha",
+    "login-button": "Login",
+    "register-button": "Inscrever-se"
+  },
+  "Profile": {
+    "title": "Perfil",
+    "followers": "Seguidores",
+    "following": "Seguindo",
+    "tvshows": "Séries",
+    "movies": "Filmes"
   }
 }

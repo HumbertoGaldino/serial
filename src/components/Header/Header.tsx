@@ -45,14 +45,14 @@ export default function Header() {
           tabIndex={0}
         />
         <button
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-purple-600 text-white rounded-full p-2 hover:bg-purple-700 transition-colors duration-300"
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-purple-600 text-white rounded-full p-2 hover:bg-purple transition-colors duration-300"
           aria-label="Search"
           tabIndex={0}
         >
           <svg
             className="w-5 h-5"
             fill="none"
-            stroke="currentColor"
+            stroke="white"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
           >
