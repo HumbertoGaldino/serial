@@ -43,5 +43,11 @@
     "minutes": "Minutos",
     "count-episodes": "Episódios Assistidos",
     "count-movies": "Filmes Assistidos"
+  },
+  "ProfileMenu": {
+    "dashboard": "Painel",
+    "profile": "Perfil",
+    "settings": "Configurações",
+    "logout": "Sair"
   }
 }
