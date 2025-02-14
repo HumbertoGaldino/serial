@@ -29,7 +29,7 @@ export const Card = React.memo(
       onMouseEnter={() => setHovered(index)}
       onMouseLeave={() => setHovered(null)}
       className={cn(
-        "rounded-lg relative cursor-pointer bg-gray-100 dark:bg-neutral-900 overflow-hidden w-[14rem] h-[22rem] transition-all duration-300 ease-out",
+        "rounded-lg relative cursor-pointer bg-neutral-900 overflow-hidden w-[9rem] h-[14rem] transition-all duration-300 ease-out",
         hovered !== null && hovered !== index && "blur-sm scale-[0.98]"
       )}
     >
@@ -61,9 +61,9 @@ export function FavoritesCards({ cards }: { cards: CardProps[] }) {
   return (
     <Swiper
       spaceBetween={10}
-      slidesPerView={1} // Número de itens visíveis por vez
+      slidesPerView={1}
       breakpoints={{
-        768: { slidesPerView: 4 }, // No desktop, exibe 4 por vez
+        768: { slidesPerView: 5 },
       }}
       pagination={{ clickable: true }}
       modules={[Pagination]}
