@@ -5,6 +5,7 @@ import { cn } from "@/src/lib/utils";
 
 type CardProps = {
   title: string;
+  name: string;
   poster_path: string;
 }
 
@@ -14,11 +15,13 @@ export const Card = React.memo(
     index,
     hovered,
     setHovered,
+    type = "movie",
   }: {
     card: CardProps;
     index: number;
     hovered: number | null;
     setHovered: React.Dispatch<React.SetStateAction<number | null>>;
+    type?: string;
   }) => (
     <div
       onMouseEnter={() => setHovered(index)}
@@ -30,7 +33,7 @@ export const Card = React.memo(
     >
       <Image
         src={`https://image.tmdb.org/t/p/w500${card.poster_path}`}
-        alt={card.title}
+        alt={type === "movie" ? card.title : card.name}
         fill
         className="object-cover absolute inset-0"
       />
@@ -41,7 +44,7 @@ export const Card = React.memo(
         )}
       >
         <div className="text-xl md:text-2xl font-medium bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-200">
-          {card.title}
+          {type === "movie" ? card.title ?? "Movie Title" : card.name ?? "Card Name"}
         </div>
       </div>
     </div>
@@ -50,20 +53,23 @@ export const Card = React.memo(
 
 Card.displayName = "Card";
 
-export function FocusCards({ cards }: { cards: CardProps[] }) {
+export function FocusCards({ cards, type }: { cards: CardProps[]; type: string }) {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-10 w-full">
-      {cards.map((card, index) => (
-        <Card
-          key={card.title}
-          card={card}
-          index={index}
-          hovered={hovered}
-          setHovered={setHovered}
-        />
-      ))}
+    <div className="flex items-center justify-center flex-wrap gap-10 w-full">
+      {cards.map((card, index) => {
+        return (
+          <Card
+            key={type === "movie" ? card.title : card.name}
+            card={card}
+            index={index}
+            hovered={hovered}
+            setHovered={setHovered}
+            type={type}
+          />
+        );
+      })}
     </div>
   );
 }

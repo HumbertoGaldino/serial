@@ -56,10 +56,20 @@ export default function Discover() {
           </div>
         </div>
         <div className="w-[80%] flex flex-col items-center justify-center gap-6 mt-20">
-          <h2 className={`${bebasNeue.className} text-purple text-[5.6em] tracking-[0.6em] mr-[-0.6em]`}>
-            LANÇAMENTOS
+          <h2
+            className={`${bebasNeue.className} text-purple text-[4em] tracking-[0.5em] mr-[-0.6em]`}
+          >
+            FILMES - LANÇAMENTOS
           </h2>
-          <DiscoverFocusCards />
+          <DiscoverFocusCards type="movie" />
+        </div>
+        <div className="w-[80%] flex flex-col items-center justify-center gap-6 mt-20">
+          <h2
+            className={`${bebasNeue.className} text-purple text-[4em] tracking-[0.5em] mr-[-0.6em]`}
+          >
+            SÉRIES - LANÇAMENTOS
+          </h2>
+          <DiscoverFocusCards type="tv" />
         </div>
       </main>
     </>
