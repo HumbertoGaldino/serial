@@ -5,7 +5,7 @@ export async function fetchDiscoverTvShows(
   lang: string = "pt-BR"
 ) {
   const response = await fetch(
-    `https://api.themoviedb.org/3/discover/tv?api_key=${process.env.TMDB_API_KEY}&language=${lang}&page=${page}`,
+    `https://api.themoviedb.org/3/trending/tv/day?api_key=${process.env.TMDB_API_KEY}&language=${lang}&page=${page}`,
     {
       method: "GET",
     }
