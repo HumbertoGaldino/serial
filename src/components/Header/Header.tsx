@@ -1,5 +1,4 @@
-import headerLogo from "@/public/header_logo.png";
-import Image from "next/image";
+import Link from "next/link";
 
 import { Athiti } from "next/font/google";
 import { Marvel } from "next/font/google";
@@ -57,15 +56,14 @@ export default function Header() {
           >
             PERFIL
           </a>
-          <a
-            href="#explorar"
+          <Link
+            href="/discover"
             className="text-white hover:text-gray-500 transition-colors duration-300"
           >
             EXPLORAR
-          </a>
+          </Link>
         </nav>
       </div>
-      
     </header>
   );
 }

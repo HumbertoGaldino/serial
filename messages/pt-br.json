@@ -2,6 +2,11 @@
   "HomePage": {
     "title": "Olá Mundo!"
   },
+  "Discover": {
+    "title": "Explorar",
+    "description": "Descubra novas séries e filmes",
+    "see-all-button": "Ver tudo"
+  },
   "About": {
     "title": "Sobre",
     "description": "Descrição sobre a página",
@@ -44,7 +49,7 @@
     "count-episodes": "Episódios Assistidos",
     "count-movies": "Filmes Assistidos"
   },
-  "ProfileMenu": {
+  "AsideMenu": {
     "dashboard": "Painel",
     "profile": "Perfil",
     "settings": "Configurações",

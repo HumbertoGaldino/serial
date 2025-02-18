@@ -22,7 +22,10 @@ export default {
         purple: "#6741B9",
         background: "var(--background)",
         foreground: "var(--foreground)",
-        primary: "#6741B9"
+        primary: "#6741B9",
+      },
+      backgroundImage: {
+        discover: "url(/discover-bg.png)",
       },
     },
   },
@@ -32,9 +35,9 @@ export default {
 function addVariablesForColors({ addBase, theme }: any) {
   let allColors = flattenColorPalette(theme("colors"));
   let newVars = Object.fromEntries(
-    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+    Object.entries(allColors).map(([key, val]) => [`--${key}`, val]),
   );
- 
+
   addBase({
     ":root": newVars,
   });

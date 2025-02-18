@@ -1,0 +1,70 @@
+import Image from "next/image";
+import Link from "next/link";
+
+import {
+  IconArrowLeft,
+  IconBrandTabler,
+  IconSettings,
+  IconUserBolt,
+} from "@tabler/icons-react";
+
+import { useTranslations } from "next-intl";
+
+export default function AsideMenu() {
+  const t = useTranslations("AsideMenu");
+
+  const links = [
+    {
+      label: t("profile"),
+      href: "/profile",
+      icon: (
+        <IconUserBolt className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: t("dashboard"),
+      href: "/profile/dashboard",
+      icon: (
+        <IconBrandTabler className="text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: t("settings"),
+      href: "/profile/settings",
+      icon: (
+        <IconSettings className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: t("logout"),
+      href: "#",
+      icon: (
+        <IconArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+  ];
+
+  return (
+    <div className="w-0 mr-[10vw]">
+      <aside className="fixed flex flex-col gap-3 bg-slate-900 w-[10vw] h-screen p-4">
+        <Image
+          src="/logo.svg"
+          width={80}
+          height={20}
+          className="w-[80px] h-[20px] mb-6"
+          alt=""
+        />
+        {links.map((link, index) => (
+          <Link
+            key={index}
+            href={link.href}
+            className="text-white flex flex-row gap-2 p-1 justify-start hover:bg-[#6b41b6] rounded-md"
+          >
+            {link.icon}
+            {link.label}
+          </Link>
+        ))}
+      </aside>
+    </div>
+  );
+}
