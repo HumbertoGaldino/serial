@@ -10,8 +10,25 @@ import { cn } from "@/src/lib/utils";
 import { useTranslations } from "next-intl";
 import { IconBrandGoogle } from "@tabler/icons-react";
 
-export default function SigninForm() {
+function LoginButton() {
+  const t = useTranslations("SignIn");
   const { pending } = useFormStatus();
+
+  return (
+    <button
+      className={`bg-gradient-to-br relative group/btn mb-4 from-zinc-900 to-zinc-900  block bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] ${
+        pending ? "opacity-70 cursor-not-allowed" : ""
+      }`}
+      type="submit"
+      disabled={pending}
+    >
+      {pending ? "Carregando..." : t("login-button")}
+      <BottomGradient />
+    </button>
+  );
+}
+
+export default function SigninForm() {
   const router = useRouter();
 
   type LoginResponse = {
@@ -87,16 +104,10 @@ export default function SigninForm() {
           )}
         </LabelInputContainer>
 
-        <button
-          className="bg-gradient-to-br relative group/btn mb-4 from-zinc-900 to-zinc-900  block bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
-          type="submit"
-        >
-          {pending ? "Carregando..." : t("login-button")}
-          <BottomGradient />
-        </button>
+        <LoginButton />
 
         <button
-          className={`bg-gradient-to-br relative group/btn via-violet-950 from-indigo-900 block bg-purple w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset] ${pending ? "opacity-70 cursor-not-allowed" : ""}`}
+          className="bg-gradient-to-br relative group/btn via-violet-950 from-indigo-900 block bg-purple w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
           type="submit"
         >
           {t("register-button")}

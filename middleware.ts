@@ -31,6 +31,6 @@ export const config = {
   matcher: [
     "/discover/:path*",
     "/profile/:path*",
-    "/((?!api|_next/static|_next/image|favicon.ico|login|register|$).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|login|signup|$).*)",
   ],
 };

@@ -1,36 +1,41 @@
 "use server";
 
-import { cookies } from "next/headers";
 import { z } from "zod";
 
-const LoginSchema = z.object({
+const RegisterSchema = z.object({
+  name: z.string().min(2, "O nome deve ter pelo menos 2 caracteres"),
   email: z.string().email("Por favor insira um email válido"),
+  username: z.string().min(3, "O username deve ter pelo menos 3 caracteres"),
   password: z
     .string()
     .min(6, "A senha deve ter pelo menos 6 caracteres")
     .max(100, "A senha deve ter no máximo 100 caracteres"),
 });
 
-type LoginResponse = {
-  auth_token: string;
+type RegisterResponse = {
+  message?: string;
 };
 
 type State = {
   status: "idle" | "error" | "success";
   message?: string;
   errors?: {
+    name?: string[];
     email?: string[];
+    username?: string[];
     password?: string[];
   };
-  data?: LoginResponse;
+  data?: RegisterResponse;
 };
 
-export async function loginUser(_: State, formData: FormData): Promise<State> {
-  console.log(formData.get("email"), formData.get("password"));
-  console.log(formData.get("email"), formData.get("password"));
-
-  const validatedFields = LoginSchema.safeParse({
+export async function registerUser(
+  _: State,
+  formData: FormData,
+): Promise<State> {
+  const validatedFields = RegisterSchema.safeParse({
+    name: formData.get("name"),
     email: formData.get("email"),
+    username: formData.get("username"),
     password: formData.get("password"),
   });
 
@@ -42,9 +47,7 @@ export async function loginUser(_: State, formData: FormData): Promise<State> {
   }
 
   try {
-    console.log(validatedFields.data);
-    console.log(JSON.stringify(validatedFields.data));
-    const response = await fetch(`${process.env.API_URL}/user/login`, {
+    const response = await fetch(`${process.env.API_URL}/user/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -57,12 +60,9 @@ export async function loginUser(_: State, formData: FormData): Promise<State> {
     if (!response.ok) {
       return {
         status: "error",
-        message: "Erro ao fazer login",
+        message: data.message || "Erro ao criar conta",
       };
     }
-
-    const cookieStore = await cookies();
-    cookieStore.set("auth_token", data);
 
     return {
       status: "success",
@@ -71,7 +71,7 @@ export async function loginUser(_: State, formData: FormData): Promise<State> {
   } catch (error) {
     return {
       status: "error",
-      message: error instanceof Error ? error.message : "Erro ao fazer login",
+      message: error instanceof Error ? error.message : "Erro ao criar conta",
     };
   }
 }

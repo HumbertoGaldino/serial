@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { logoutUser } from "@/app/actions/logoutUser";
 
 import {
   IconArrowLeft,
@@ -17,9 +18,7 @@ export default function AsideMenu() {
     {
       label: t("profile"),
       href: "/profile",
-      icon: (
-        <IconUserBolt className="text-neutral-200 h-5 w-5 flex-shrink-0" />
-      ),
+      icon: <IconUserBolt className="text-neutral-200 h-5 w-5 flex-shrink-0" />,
     },
     {
       label: t("dashboard"),
@@ -31,16 +30,7 @@ export default function AsideMenu() {
     {
       label: t("settings"),
       href: "/profile/settings",
-      icon: (
-        <IconSettings className="text-neutral-200 h-5 w-5 flex-shrink-0" />
-      ),
-    },
-    {
-      label: t("logout"),
-      href: "#",
-      icon: (
-        <IconArrowLeft className="text-neutral-200 h-5 w-5 flex-shrink-0" />
-      ),
+      icon: <IconSettings className="text-neutral-200 h-5 w-5 flex-shrink-0" />,
     },
   ];
 
@@ -64,6 +54,13 @@ export default function AsideMenu() {
             {link.label}
           </Link>
         ))}
+        <button
+          onClick={logoutUser}
+          className="text-white flex flex-row gap-2 p-1 justify-start hover:bg-[#6b41b6] rounded-md"
+        >
+          <IconArrowLeft className="text-neutral-200 h-5 w-5 flex-shrink-0" />
+          {t("logout")}
+        </button>
       </aside>
     </div>
   );
