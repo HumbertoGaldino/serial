@@ -16,7 +16,7 @@ const athiti = Athiti({
 export default function Header() {
   return (
     <header
-      className={`${marvel.className} max-h-[10vh] flex items-center justify-between py-4 px-8 bg-slate-950`}
+      className={`${marvel.className} max-h-[10vh] lg-max:w-[88vw] 3xl:w-[90vw] flex items-center justify-between py-4 px-8 bg-slate-950`}
     >
       <div className="relative">
         <input
