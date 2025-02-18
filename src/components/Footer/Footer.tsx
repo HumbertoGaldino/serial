@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="text-white bg-slate-900">
+    <footer className="text-white bg-slate-950">
       {/* <div className="flex flex-row justify-evenly items-center gap-8 p-10">
         <nav className="flex flex-col">
           <a href="#">Link 1</a>
