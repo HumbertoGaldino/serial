@@ -13,7 +13,7 @@ const bebasNeue = Bebas_Neue({
 
 export default function Discover() {
   return (
-    <main className="w-full min-h-screen h-full flex flex-col items-center bg-discover bg-repeat bg-top">
+    <main className="lg-max:max-w-[85vw] 3xl:max-w-[90vw] min-h-screen h-full flex flex-col items-center bg-discover bg-repeat bg-top">
       <div className="flex flex-col items-center justify-center gap-6 mt-20 lg-max:mb-30 3xl:mb-40 z-10">
         <GiCompass className="lg-max:w-[70px] lg-max:h-[70px] 3xl:w-[100px] 3xl:h-[100px] text-[#6b41b6]" />
         <h1
