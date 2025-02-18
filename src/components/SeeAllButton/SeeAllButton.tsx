@@ -11,7 +11,7 @@ export default function SeeAllButton() {
 
   return (
     <button
-      className={`${bebasNeue.className} w-[70%] h-14 my-10 rounded-2xl rounded-t-none text-3xl text-gray-300 bg-purple hover:bg-opacity-100 bg-opacity-70 transition-colors duration-300`}
+      className={`${bebasNeue.className} w-[70%] h-14 my-10 rounded-2xl rounded-t-none text-3xl text-gray-300 tracking-widest bg-purple hover:bg-opacity-100 bg-opacity-70 transition-colors duration-300`}
     >
       {t("see-all-button")}
     </button>

@@ -5,6 +5,7 @@ export async function middleware(request: NextRequest) {
   const token = request.cookies.get("auth_token")?.value;
 
   if (!token) {
+    console.log("Token não existe" + token);
     return NextResponse.redirect(new URL("/", request.url));
   }
 
@@ -23,9 +24,6 @@ export async function middleware(request: NextRequest) {
 
     return NextResponse.next();
   } catch (error) {
-    if (error instanceof Error) {
-      console.error(error.message);
-    }
     return NextResponse.redirect(new URL("/", request.url));
   }
 }
@@ -34,6 +32,6 @@ export const config = {
   matcher: [
     "/discover/:path*",
     "/profile/:path*",
-    "/((?!api|_next/static|_next/image|favicon.ico|login|register).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|login|register|$).*)",
   ],
 };
