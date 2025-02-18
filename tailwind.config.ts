@@ -17,7 +17,7 @@ export default {
     extend: {
       boxShadow: {
         input: `0px 2px 3px -1px rgba(0,0,0,0.1), 0px 1px 0px 0px rgba(25,28,33,0.02), 0px 0px 0px 1px rgba(25,28,33,0.08)`,
-      },
+      },      
       colors: {
         purple: "#6741B9",
         background: "var(--background)",
@@ -27,14 +27,24 @@ export default {
       backgroundImage: {
         discover: "url(/discover-bg.png)",
       },
+      screens: {
+        'sm-min': '480px',
+        'sm': '560px',
+        'sm-max': '680px',
+        'md': '820px',
+        'lg': '1070px',
+        'lg-max': '1170px',
+        '3xl': '1720px',
+        'footer-2xl': "1400px"
+      },
     },
   },
   plugins: [addVariablesForColors],
 } satisfies Config;
 
 function addVariablesForColors({ addBase, theme }: any) {
-  let allColors = flattenColorPalette(theme("colors"));
-  let newVars = Object.fromEntries(
+  const allColors = flattenColorPalette(theme("colors"));
+  const newVars = Object.fromEntries(
     Object.entries(allColors).map(([key, val]) => [`--${key}`, val]),
   );
 

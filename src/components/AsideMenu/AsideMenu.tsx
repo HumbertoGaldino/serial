@@ -18,7 +18,7 @@ export default function AsideMenu() {
       label: t("profile"),
       href: "/profile",
       icon: (
-        <IconUserBolt className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconUserBolt className="text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
@@ -32,21 +32,21 @@ export default function AsideMenu() {
       label: t("settings"),
       href: "/profile/settings",
       icon: (
-        <IconSettings className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconSettings className="text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
       label: t("logout"),
       href: "#",
       icon: (
-        <IconArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <IconArrowLeft className="text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
   ];
 
   return (
-    <div className="w-0 mr-[10vw]">
-      <aside className="fixed flex flex-col gap-3 bg-slate-900 w-[10vw] h-screen p-4">
+    <div className="w-0 lg-max:mr-[12vw] 3xl:mr-[10vw]">
+      <aside className="fixed flex flex-col gap-3 bg-slate-900 lg-max:mr-[12vw] 3xl:w-[10vw] h-screen p-4">
         <Image
           src="/logo.svg"
           width={80}
