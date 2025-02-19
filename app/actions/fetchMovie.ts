@@ -4,7 +4,7 @@ export async function fetchMovie(
   lang: string = "pt-BR"
 ) {
   const response = await fetch(
-    `https://api.themoviedb.org/3/movie/5?api_key=${process.env.TMDB_API_KEY}&language=${lang}`,
+    `https://api.themoviedb.org/3/movie/822119?api_key=${process.env.TMDB_API_KEY}&language=${lang}`,
     {
       method: "GET",
     }

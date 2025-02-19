@@ -105,10 +105,13 @@ export default function MoviePage() {
 
   return (
     <main className="flex flex-col lg-max:w-[85vw] 3xl:w-[90vw] items-center justify-center flex-1 relative z-9999 bg-slate-950">
-      <div>
-        <h1 className="text-white text-4xl">
-          {movie.title || "Carregando..."}
-        </h1>
+      <div className={`flex flex-row bg-[url('https://image.tmdb.org/t/p/original/${movie.backdrop_path}')] w-full h-full`}>
+        <div>
+          <h1 className="text-white text-4xl">
+            {movie.title}
+          </h1>
+        </div>
+        <img src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`} alt="" className="w-[300px] h-[450px] rounded-lg"/>
       </div>
     </main>
   );
