@@ -57,7 +57,7 @@ export async function loginUser(_: State, formData: FormData): Promise<State> {
     if (!response.ok) {
       return {
         status: "error",
-        message: "Erro ao fazer login",
+        message: data?.message || "Erro ao fazer login",
       };
     }
 

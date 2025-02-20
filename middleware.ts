@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
@@ -18,11 +19,13 @@ export async function middleware(request: NextRequest) {
     });
 
     if (!response.ok) {
+      await cookies().then((cookieStore) => cookieStore.delete("auth_token"));
       return NextResponse.redirect(new URL("/", request.url));
     }
 
     return NextResponse.next();
   } catch (error) {
+    await cookies().then((cookieStore) => cookieStore.delete("auth_token"));
     return NextResponse.redirect(new URL("/", request.url));
   }
 }
