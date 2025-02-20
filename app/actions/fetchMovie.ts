@@ -1,10 +1,11 @@
 "use server";
 
 export async function fetchMovie(
+  id: string,
   lang: string = "pt-BR"
 ) {
   const response = await fetch(
-    `https://api.themoviedb.org/3/movie/822119?api_key=${process.env.TMDB_API_KEY}&language=${lang}`,
+    `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.TMDB_API_KEY}&language=${lang}`,
     {
       method: "GET",
     }
