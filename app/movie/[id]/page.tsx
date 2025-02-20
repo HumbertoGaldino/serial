@@ -5,9 +5,14 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { fetchMovie } from "@/app/actions/fetchMovie";
+import LoadingSpinner from "@/src/components/LoadingSpinner/LoadingSpinner";
+import TitleHeader from "@/src/components/TitleHeader";
+
 import { Bebas_Neue } from "next/font/google";
 import { Athiti } from "next/font/google";
 const athiti = Athiti({ subsets: ["latin"], weight: ["400"] });
+
+import Image from 'next/image'
 
 const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
@@ -65,8 +70,6 @@ interface Movie {
   vote_count: number;
 }
 
-
-
 export default function MoviePage() {
 
   const { id } = useParams();
@@ -101,6 +104,7 @@ export default function MoviePage() {
     vote_average: 0,
     vote_count: 0,
   });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchMovieData = async () => {
@@ -110,34 +114,18 @@ export default function MoviePage() {
       } catch (error) {
         console.error("Erro ao buscar o filme:", error);
       }
+      setIsLoading(false);
     };
 
     fetchMovieData();
   }, []);
 
 
-  return (
-    <main className="flex flex-col lg-max:w-[85vw] 3xl:w-[90vw] items-center justify-center flex-1 relative z-9999 bg-slate-950 relative z-1">
-      <img
-        src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
-        alt=""
-        className="absolute w-full h-full z-2 object-cover blur-sm bg-slate-950 opacity-50" 
-      />
-
-      <div className="flex flex-row w-full h-full items-center justify-center relative z-4 p-4">
-        <div className="relative z-3 p-4 w-[70%] flex flex-col items-center justify-center gap-3">
-          <h1 className={`${bebasNeue.className} w-[40%] text-white text-center text-4xl mb-12`}>
-            {movie.title}
-          </h1>
-
-          <h3 className={`${bebasNeue.className}  text-white text-center text-xl`}>Sinopse</h3>
-          <p className={`${athiti.className} w-[60%]  text-white text-center text-sm`}>{movie.overview}</p>
-        </div>
-
-        <div className="w-[30%] ">
-          <img src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`} alt="" className="w-[16rem] h-[24rem] rounded-lg object-cover"/>
-        </div>
+  return isLoading ? (
+      <div className="flex flex-col lg-max:w-[85vw] 3xl:w-[90vw] items-center justify-center flex-1 relative z-9999 bg-slate-950 relative z-1">
+          <LoadingSpinner />
       </div>
-    </main>
+    ):(
+      <TitleHeader type={movie}/>
   );
 }
