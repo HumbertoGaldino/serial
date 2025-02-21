@@ -2,8 +2,10 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { cn } from "@/src/lib/utils";
+import Link from 'next/link'
 
 type CardProps = {
+  id: string,
   title: string;
   name: string;
   poster_path: string;
@@ -23,7 +25,8 @@ export const Card = React.memo(
     setHovered: React.Dispatch<React.SetStateAction<number | null>>;
     type?: string;
   }) => (
-    <div
+    <Link
+      href={`/${type}/${card.id}`}
       onMouseEnter={() => setHovered(index)}
       onMouseLeave={() => setHovered(null)}
       className={cn(
@@ -47,7 +50,7 @@ export const Card = React.memo(
           {type === "movie" ? card.title ?? "Movie Title" : card.name ?? "Card Name"}
         </div>
       </div>
-    </div>
+    </Link>
   )
 );
 

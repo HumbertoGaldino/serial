@@ -1,7 +1,12 @@
+ 
 "use client";
 
 import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { fetchMovie } from "@/app/actions/fetchMovie";
+import LoadingSpinner from "@/src/components/LoadingSpinner/LoadingSpinner";
+import TitleHeader from "@/src/components/TitleHeader";
 
 interface Genre {
   id: number;
@@ -56,6 +61,11 @@ interface Movie {
 }
 
 export default function MoviePage() {
+
+  const { id } = useParams();
+
+  const t = useTranslations("Movie");
+   
   const [movie, setMovie] = useState<Movie>({
     adult: false,
     backdrop_path: "",
@@ -84,35 +94,28 @@ export default function MoviePage() {
     vote_average: 0,
     vote_count: 0,
   });
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchMovieData = async () => {
-      try {
-        const data = await fetchMovie();
-        console.log("Dados recebidos:", data);
+      try {              
+        const data = await fetchMovie(id);
         setMovie(data);
       } catch (error) {
         console.error("Erro ao buscar o filme:", error);
       }
+      setIsLoading(false);
     };
 
     fetchMovieData();
   }, []);
 
-  useEffect(() => {
-    console.log("Estado atualizado:", movie);
-  }, [movie]);
 
-  return (
-    <main className="flex flex-col lg-max:w-[85vw] 3xl:w-[90vw] items-center justify-center flex-1 relative z-9999 bg-slate-950">
-      <div className={`flex flex-row bg-[url('https://image.tmdb.org/t/p/original/${movie.backdrop_path}')] w-full h-full`}>
-        <div>
-          <h1 className="text-white text-4xl">
-            {movie.title}
-          </h1>
-        </div>
-        <img src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`} alt="" className="w-[300px] h-[450px] rounded-lg"/>
+  return isLoading ? (
+      <div className="flex flex-col lg-max:w-[85vw] 3xl:w-[90vw] items-center justify-center flex-1 relative z-9999 bg-slate-950 relative z-1">
+          <LoadingSpinner />
       </div>
-    </main>
+    ):(
+      <TitleHeader type={movie}/>
   );
 }

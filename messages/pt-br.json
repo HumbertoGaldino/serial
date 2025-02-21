@@ -54,5 +54,17 @@
     "profile": "Perfil",
     "settings": "Configurações",
     "logout": "Sair"
+  },
+  "Movie": {
+    "title": "Filme",
+    "overview": "Sinopse",
+    "genres": "Gêneros",
+    "cast": "Elenco",
+    "director": "Diretor",
+    "release-date": "Data de Lançamento",
+    "runtime": "Duração",
+    "popularity": "Popularidade",
+    "vote-average": "Média de Votos",
+    "vote-count": "Contagem de Votos"
   }
 }
