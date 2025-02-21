@@ -8,16 +8,6 @@ import { fetchMovie } from "@/app/actions/fetchMovie";
 import LoadingSpinner from "@/src/components/LoadingSpinner/LoadingSpinner";
 import TitleHeader from "@/src/components/TitleHeader";
 
-import { Bebas_Neue } from "next/font/google";
-import { Athiti } from "next/font/google";
-const athiti = Athiti({ subsets: ["latin"], weight: ["400"] });
-
-import Image from 'next/image'
-
-const bebasNeue = Bebas_Neue({
-  subsets: ["latin"],
-  weight: ["400"],
-});
 interface Genre {
   id: number;
   name: string;

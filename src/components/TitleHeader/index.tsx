@@ -23,7 +23,7 @@ export default function TitleHeader({ type }: { type: object }){
           <div className="flex flex-row w-full h-full items-center justify-center relative z-4 p-4">
             <div className="relative z-3 p-4 w-[70%] flex flex-col items-center justify-center gap-3">
               <h1 className={`${bebasNeue.className} w-[40%] text-white text-center text-4xl mb-12`}>
-                {type.title}
+                {type.title ? type.title : type.name}
               </h1>
 
               <h3 className={`${bebasNeue.className}  text-white text-center text-xl`}>Sinopse</h3>
