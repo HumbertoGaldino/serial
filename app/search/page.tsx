@@ -41,21 +41,27 @@ export default function SearchPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
   const [showShortcuts, setShowShortcuts] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const handleBack = useCallback(() => {
     try {
-      // Check if we can go back in history
       if (window.history.state !== null && window.history.length > 2) {
         router.back();
       } else {
-        // If no history, go to homepage
         router.push('/');
       }
     } catch {
-      // Fallback to homepage if any error occurs with history
       router.push('/');
     }
   }, [router]);
+
+  const handleNavigation = useCallback((path: string) => {
+    if (isNavigating) return;
+    setIsNavigating(true);
+    router.push(path, { scroll: false });
+    // Reset navigation lock after a short delay
+    setTimeout(() => setIsNavigating(false), 300);
+  }, [router, isNavigating]);
 
   const handleKeyNavigation = useCallback((e: globalThis.KeyboardEvent) => {
     if (e.key === '?') {
@@ -70,35 +76,35 @@ export default function SearchPage() {
       return;
     }
 
-    if (!totalPages || totalPages === 1) return;
+    if (!totalPages || totalPages === 1 || isNavigating) return;
 
     switch (e.key) {
       case 'ArrowLeft':
         if (currentPage > 1) {
           e.preventDefault();
-          router.push(`/search?q=${query}&page=${currentPage - 1}`, { scroll: false });
+          handleNavigation(`/search?q=${query}&page=${currentPage - 1}`);
         }
         break;
       case 'ArrowRight':
         if (currentPage < totalPages) {
           e.preventDefault();
-          router.push(`/search?q=${query}&page=${currentPage + 1}`, { scroll: false });
+          handleNavigation(`/search?q=${query}&page=${currentPage + 1}`);
         }
         break;
       case 'Home':
         if (currentPage !== 1) {
           e.preventDefault();
-          router.push(`/search?q=${query}&page=1`, { scroll: false });
+          handleNavigation(`/search?q=${query}&page=1`);
         }
         break;
       case 'End':
         if (currentPage !== totalPages) {
           e.preventDefault();
-          router.push(`/search?q=${query}&page=${totalPages}`, { scroll: false });
+          handleNavigation(`/search?q=${query}&page=${totalPages}`);
         }
         break;
     }
-  }, [query, currentPage, totalPages, router, handleBack]);
+  }, [query, currentPage, totalPages, handleNavigation, handleBack, isNavigating]);
 
   const handleShortcutsKeyPress = useCallback((e: globalThis.KeyboardEvent) => {
     if (e.key === 'Escape' && showShortcuts) {
@@ -106,7 +112,6 @@ export default function SearchPage() {
     }
   }, [showShortcuts]);
 
-  // Add keyboard event listener
   useEffect(() => {
     const keyNavHandler = (e: globalThis.KeyboardEvent) => handleKeyNavigation(e);
     const shortcutsHandler = (e: globalThis.KeyboardEvent) => handleShortcutsKeyPress(e);
@@ -122,7 +127,6 @@ export default function SearchPage() {
 
   // Update document title and metadata
   useEffect(() => {
-    // Update just the document title since we're in a client component
     document.title = query 
       ? `${totalResults} resultados para "${query}" - Página ${currentPage} - Serial`
       : 'Busca - Serial';
@@ -189,23 +193,23 @@ export default function SearchPage() {
         const newPage = typeof page === 'string' 
           ? (page === 'Previous' ? currentPage - 1 : currentPage + 1) 
           : page;
-        router.push(`/search?q=${query}&page=${newPage}`, { scroll: false });
+        handleNavigation(`/search?q=${query}&page=${newPage}`);
       }}
       className={`px-4 py-2 rounded-md ${
         isActive 
           ? 'bg-purple-600 text-white' 
-          : disabled
+          : disabled || isNavigating
             ? 'bg-slate-700 text-slate-400 cursor-not-allowed'
             : 'bg-slate-800 text-white hover:bg-purple-600 transition-colors'
       }`}
       aria-current={isActive ? 'page' : undefined}
-      aria-disabled={disabled}
+      aria-disabled={disabled || isNavigating}
       aria-label={typeof page === 'string' 
         ? page === 'Previous' ? 'Página anterior' : 'Próxima página'
         : `Ir para página ${page}`
       }
-      tabIndex={disabled ? -1 : 0}
-      disabled={disabled}
+      tabIndex={disabled || isNavigating ? -1 : 0}
+      disabled={disabled || isNavigating}
     >
       {page}
     </button>
@@ -335,8 +339,9 @@ export default function SearchPage() {
               {results.map((result) => (
                 <button
                   key={result.id}
-                  onClick={() => router.push(getMediaLink(result), { scroll: false })}
-                  className={`text-left ${isLoading ? 'pointer-events-none' : ''}`}
+                  onClick={() => handleNavigation(getMediaLink(result))}
+                  className={`text-left ${isLoading || isNavigating ? 'pointer-events-none' : ''}`}
+                  disabled={isLoading || isNavigating}
                 >
                   <ResultCard result={result} loading={isLoading} />
                 </button>
