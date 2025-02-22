@@ -5,6 +5,7 @@ export async function fetchVideo(
   type: string,
   lang: string = "pt-BR"
 ) {
+
   const response = await fetch(
     `https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${process.env.TMDB_API_KEY}&language=${lang}`,
     {
@@ -13,5 +14,22 @@ export async function fetchVideo(
   );
   
   const data = await response.json();
-  return data;
+  
+  if(data.results?.length > 0){
+    return data;
+  } else {
+
+    const response2 = await fetch(
+      `https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${process.env.TMDB_API_KEY}`,
+      {
+        method: "GET",
+      }
+    );
+
+    const data2 = await response2.json();
+
+    return data2;
+  }
+
+  
 }

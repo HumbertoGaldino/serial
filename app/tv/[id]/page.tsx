@@ -8,6 +8,8 @@ import { fetchTvShow } from "@/app/actions/fetchTvShow";
 import LoadingSpinner from "@/src/components/LoadingSpinner/LoadingSpinner";
 import TitleHeader from "@/src/components/TitleHeader";
 import CastingCards from "@/src/components/CastingCards";
+import YouTubeVideo from "@/src/components/YouTubeVideo";
+import RecommendedTitles from "@/src/components/RecommendedTitles";
 
 interface Genre {
   id: number;
@@ -167,6 +169,8 @@ export default function TvShowPage() {
       <div className="lg-max:w-[85vw] 3xl:w-[90vw]">
         <TitleHeader type={tvShow}/>
         <CastingCards type='tv'/>
+        <YouTubeVideo type='tv'/>
+        <RecommendedTitles type='tv'/>
       </div>      
   );
 }
