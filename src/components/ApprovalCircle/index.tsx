@@ -27,7 +27,7 @@ const ApprovalCircle: React.FC<ApprovalCircleProps> = ({ voteAverage }) => {
           cx="40"
           cy="40"
           r={radius}
-          stroke={percentage >= 70 ? "#FFFE00" : "gray"}
+          stroke={"#FFFE00"}
           strokeWidth="6"
           fill="transparent"
           strokeDasharray={circumference}

@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { fetchTvShow } from "@/app/actions/fetchTvShow";
 import LoadingSpinner from "@/src/components/LoadingSpinner/LoadingSpinner";
 import TitleHeader from "@/src/components/TitleHeader";
+import CastingCards from "@/src/components/CastingCards";
 
 interface Genre {
   id: number;
@@ -163,6 +164,9 @@ export default function TvShowPage() {
           <LoadingSpinner />
       </div>
     ):(
-      <TitleHeader type={tvShow}/>
+      <div className="lg-max:w-[85vw] 3xl:w-[90vw]">
+        <TitleHeader type={tvShow}/>
+        <CastingCards type='tv'/>
+      </div>      
   );
 }

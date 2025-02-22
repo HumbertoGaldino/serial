@@ -35,7 +35,7 @@ export default function AsideMenu() {
   ];
 
   return (
-    <div className="w-0 lg-max:mr-[15vw] 3xl:mr-[10vw]">
+    <div className="w-0 lg-max:w-[15vw] 3xl:w-[10vw]">
       <aside className="fixed flex flex-col gap-3 bg-slate-900 lg-max:w-[15vw] 3xl:w-[10vw] h-screen p-4 z-50">
         <Image
           src="/logo.svg"
