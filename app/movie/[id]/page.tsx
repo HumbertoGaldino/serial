@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { fetchMovie } from "@/app/actions/fetchMovie";
 import LoadingSpinner from "@/src/components/LoadingSpinner/LoadingSpinner";
 import TitleHeader from "@/src/components/TitleHeader";
+import CastingCards from "@/src/components/CastingCards";
 
 interface Genre {
   id: number;
@@ -116,6 +117,9 @@ export default function MoviePage() {
           <LoadingSpinner />
       </div>
     ):(
-      <TitleHeader type={movie}/>
+      <>
+        <TitleHeader type={movie}/>
+        <CastingCards cast={movie}/>
+      </>
   );
 }
