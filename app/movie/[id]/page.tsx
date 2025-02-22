@@ -122,7 +122,7 @@ export default function MoviePage() {
         <TitleHeader type={movie}/>
         <CastingCards type='movie'/>
         <YouTubeVideo type='movie'/>
-        <RecommendedTitles type='movie'/>
+        <RecommendedTitles type='movie'/> 
       </div>
   );
 }
