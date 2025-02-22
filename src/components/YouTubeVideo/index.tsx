@@ -19,6 +19,7 @@ export default function YouTubeVideo({ type }: { type: string }){
         const fetchVideoData = async () => {
           try {              
             const data = await fetchVideo(id,type);
+            
             setVideo(data);
           } catch (error) {
             console.error("Erro ao buscar o filme:", error);
@@ -45,12 +46,13 @@ export default function YouTubeVideo({ type }: { type: string }){
               Trailer
             </h2>
             {
-                video ? 
+                video?.results?.length > 0 ? ( 
                     <iframe className="w-[90%] h-[80vh] rounded-lg" height="315" src={`https://www.youtube.com/embed/${video.results[0].key}`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen />
-                : 
-                <div>
+                ) : ( 
+                <div className="h-[40vh] text-white flex flex-col items-center justify-center">
                     <p>Nenhum trailer encontrado.</p>
                 </div>
+                )
             }
 
             

@@ -8,6 +8,7 @@ import LoadingSpinner from "@/src/components/LoadingSpinner/LoadingSpinner";
 import TitleHeader from "@/src/components/TitleHeader";
 import CastingCards from "@/src/components/CastingCards";
 import YouTubeVideo from "@/src/components/YouTubeVideo";
+import RecommendedTitles from "@/src/components/RecommendedTitles";
 
 interface Genre {
   id: number;
@@ -121,6 +122,7 @@ export default function MoviePage() {
         <TitleHeader type={movie}/>
         <CastingCards type='movie'/>
         <YouTubeVideo type='movie'/>
+        <RecommendedTitles type='movie'/>
       </div>
   );
 }
