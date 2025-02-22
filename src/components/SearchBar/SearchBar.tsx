@@ -46,7 +46,7 @@ export default function SearchBar() {
       setError(null);
       SearchMulti(debouncedTerm, 1, 'pt-BR')
         .then((data) => {
-          // Filter out person results and take first 5
+          // Filter out person results to exlude them from the search results
           const filteredResults = data.results
             .filter((result: SearchResult) => result.media_type !== 'person')
             .slice(0, 5);
@@ -86,16 +86,18 @@ export default function SearchBar() {
       case 'ArrowDown':
         e.preventDefault();
         setSelectedIndex(prev => 
-          prev < results.length - 1 ? prev + 1 : prev
+          prev < results.length ? prev + 1 : prev
         );
         break;
       case 'ArrowUp':
         e.preventDefault();
-        setSelectedIndex(prev => prev > 0 ? prev - 1 : prev);
+        setSelectedIndex(prev => prev > -1 ? prev - 1 : prev);
         break;
       case 'Enter':
         e.preventDefault();
-        if (selectedIndex >= 0 && results[selectedIndex]) {
+        if (selectedIndex === results.length) {
+          window.location.href = `/search?q=${searchTerm}`;
+        } else if (selectedIndex >= 0 && results[selectedIndex]) {
           const result = results[selectedIndex];
           window.location.href = getMediaLink(result);
         }
@@ -189,34 +191,46 @@ export default function SearchBar() {
               <span>{error}</span>
             </div>
           ) : results.length > 0 ? (
-            results.map((result, index) => (
-              <Link 
-                key={result.id} 
-                href={getMediaLink(result)}
-                className={`flex items-center p-2 transition-colors duration-200 ${
-                  index === selectedIndex ? 'bg-slate-800/80' : 'hover:bg-slate-800/80'
+            <>
+              {results.map((result, index) => (
+                <Link 
+                  key={result.id} 
+                  href={getMediaLink(result)}
+                  className={`flex items-center p-2 transition-colors duration-200 ${
+                    index === selectedIndex ? 'bg-slate-800/80' : 'hover:bg-slate-800/80'
+                  }`}
+                  onMouseEnter={() => setSelectedIndex(index)}
+                  onMouseLeave={() => setSelectedIndex(-1)}
+                >
+                  {getImageUrl(result) && (
+                    <Image
+                      src={getImageUrl(result)!}
+                      alt={getTitle(result)}
+                      width={40}
+                      height={56}
+                      className="object-cover rounded mr-3"
+                      unoptimized
+                    />
+                  )}
+                  <div className="flex flex-col">
+                    <span className="text-white font-semibold">{getTitle(result)}</span>
+                    {getYear(result) && (
+                      <span className="text-gray-400 text-sm">{getYear(result)}</span>
+                    )}
+                  </div>
+                </Link>
+              ))}
+              <Link
+                href={`/search?q=${searchTerm}`}
+                className={`block text-center py-2 text-white hover:text-yellow-500 hover:bg-slate-800/80 transition-colors duration-200 border-t border-slate-800 ${
+                  selectedIndex === results.length ? 'bg-slate-800/80' : ''
                 }`}
-                onMouseEnter={() => setSelectedIndex(index)}
+                onMouseEnter={() => setSelectedIndex(results.length)}
                 onMouseLeave={() => setSelectedIndex(-1)}
               >
-                {getImageUrl(result) && (
-                  <Image
-                    src={getImageUrl(result)!}
-                    alt={getTitle(result)}
-                    width={40}
-                    height={56}
-                    className="object-cover rounded mr-3"
-                    unoptimized // Since we're using TMDB's optimized images
-                  />
-                )}
-                <div className="flex flex-col">
-                  <span className="text-white font-semibold">{getTitle(result)}</span>
-                  {getYear(result) && (
-                    <span className="text-gray-400 text-sm">{getYear(result)}</span>
-                  )}
-                </div>
+                Ver mais resultados
               </Link>
-            ))
+            </>
           ) : !isLoading && (
             <div className="p-4 text-gray-400 text-center">
               <span>Nenhum resultado encontrado</span>
