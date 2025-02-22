@@ -3,8 +3,8 @@
 import { useState, useEffect, useRef, KeyboardEvent } from 'react';
 import { SearchMulti } from '@/app/actions/searchMulti';
 import { Athiti } from "next/font/google";
-import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 const athiti = Athiti({
   subsets: ["latin"],
@@ -23,6 +23,7 @@ type SearchResult = {
 };
 
 export default function SearchBar() {
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedTerm, setDebouncedTerm] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
@@ -96,10 +97,10 @@ export default function SearchBar() {
       case 'Enter':
         e.preventDefault();
         if (selectedIndex === results.length) {
-          window.location.href = `/search?q=${searchTerm}`;
+          router.push(`/search?q=${searchTerm}`);
         } else if (selectedIndex >= 0 && results[selectedIndex]) {
           const result = results[selectedIndex];
-          window.location.href = getMediaLink(result);
+          router.push(getMediaLink(result));
         }
         break;
       case 'Escape':
@@ -193,10 +194,10 @@ export default function SearchBar() {
           ) : results.length > 0 ? (
             <>
               {results.map((result, index) => (
-                <Link 
-                  key={result.id} 
-                  href={getMediaLink(result)}
-                  className={`flex items-center p-2 transition-colors duration-200 ${
+                <button 
+                  key={result.id}
+                  onClick={() => router.push(getMediaLink(result))}
+                  className={`w-full flex items-center p-2 text-left transition-colors duration-200 ${
                     index === selectedIndex ? 'bg-slate-800/80' : 'hover:bg-slate-800/80'
                   }`}
                   onMouseEnter={() => setSelectedIndex(index)}
@@ -218,18 +219,18 @@ export default function SearchBar() {
                       <span className="text-gray-400 text-sm">{getYear(result)}</span>
                     )}
                   </div>
-                </Link>
+                </button>
               ))}
-              <Link
-                href={`/search?q=${searchTerm}`}
-                className={`block text-center py-2 text-white hover:text-yellow-500 hover:bg-slate-800/80 transition-colors duration-200 border-t border-slate-800 ${
+              <button
+                onClick={() => router.push(`/search?q=${searchTerm}`)}
+                className={`w-full text-center py-2 text-white hover:text-yellow-500 hover:bg-slate-800/80 transition-colors duration-200 border-t border-slate-800 ${
                   selectedIndex === results.length ? 'bg-slate-800/80' : ''
                 }`}
                 onMouseEnter={() => setSelectedIndex(results.length)}
                 onMouseLeave={() => setSelectedIndex(-1)}
               >
                 Ver mais resultados
-              </Link>
+              </button>
             </>
           ) : !isLoading && (
             <div className="p-4 text-gray-400 text-center">

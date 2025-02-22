@@ -4,7 +4,6 @@ import { useEffect, useState, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { SearchMulti } from '@/app/actions/searchMulti';
 import Image from 'next/image';
-import Link from 'next/link';
 import { Athiti, Marvel } from "next/font/google";
 
 const athiti = Athiti({
@@ -76,22 +75,26 @@ export default function SearchPage() {
     switch (e.key) {
       case 'ArrowLeft':
         if (currentPage > 1) {
-          window.location.href = `/search?q=${query}&page=${currentPage - 1}`;
+          e.preventDefault();
+          router.push(`/search?q=${query}&page=${currentPage - 1}`, { scroll: false });
         }
         break;
       case 'ArrowRight':
         if (currentPage < totalPages) {
-          window.location.href = `/search?q=${query}&page=${currentPage + 1}`;
+          e.preventDefault();
+          router.push(`/search?q=${query}&page=${currentPage + 1}`, { scroll: false });
         }
         break;
       case 'Home':
         if (currentPage !== 1) {
-          window.location.href = `/search?q=${query}&page=1`;
+          e.preventDefault();
+          router.push(`/search?q=${query}&page=1`, { scroll: false });
         }
         break;
       case 'End':
         if (currentPage !== totalPages) {
-          window.location.href = `/search?q=${query}&page=${totalPages}`;
+          e.preventDefault();
+          router.push(`/search?q=${query}&page=${totalPages}`, { scroll: false });
         }
         break;
     }
@@ -158,9 +161,9 @@ export default function SearchPage() {
   useEffect(() => {
     const page = validatePageNumber(currentPage);
     if (page !== currentPage) {
-      window.location.href = `/search?q=${query}&page=${page}`;
+      router.push(`/search?q=${query}&page=${page}`, { scroll: false });
     }
-  }, [currentPage, query, validatePageNumber]);
+  }, [currentPage, query, validatePageNumber, router]);
 
   const getMediaLink = (result: SearchResult) => {
     return result.media_type === 'movie' ? `/movie/${result.id}` : `/tv/${result.id}`;
@@ -181,13 +184,18 @@ export default function SearchPage() {
   };
 
   const PaginationButton = ({ page, isActive, disabled }: { page: number | string, isActive?: boolean, disabled?: boolean }) => (
-    <Link
-      href={`/search?q=${query}&page=${typeof page === 'string' ? (page === 'Previous' ? currentPage - 1 : currentPage + 1) : page}`}
+    <button
+      onClick={() => {
+        const newPage = typeof page === 'string' 
+          ? (page === 'Previous' ? currentPage - 1 : currentPage + 1) 
+          : page;
+        router.push(`/search?q=${query}&page=${newPage}`, { scroll: false });
+      }}
       className={`px-4 py-2 rounded-md ${
         isActive 
           ? 'bg-purple-600 text-white' 
           : disabled
-            ? 'bg-slate-700 text-slate-400 cursor-not-allowed pointer-events-none'
+            ? 'bg-slate-700 text-slate-400 cursor-not-allowed'
             : 'bg-slate-800 text-white hover:bg-purple-600 transition-colors'
       }`}
       aria-current={isActive ? 'page' : undefined}
@@ -197,9 +205,10 @@ export default function SearchPage() {
         : `Ir para página ${page}`
       }
       tabIndex={disabled ? -1 : 0}
+      disabled={disabled}
     >
       {page}
-    </Link>
+    </button>
   );
 
   const ResultCard = ({ result, loading }: { result: SearchResult; loading?: boolean }) => (
@@ -256,126 +265,124 @@ export default function SearchPage() {
   );
 
   return (
-    <>
-      <div className={`${athiti.className} min-h-screen bg-slate-950 text-white px-8 py-6`}>
-        <div className="max-w-7xl mx-auto">
-          <div className="flex justify-between items-center mb-6">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={handleBack}
-                className="text-gray-400 hover:text-white transition-colors p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2 focus:ring-offset-slate-950"
-                aria-label="Voltar para a página anterior ou página inicial"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-              </button>
-              <h1 className={`${marvel.className} text-3xl`}>
-                {query ? `Resultados para "${query}"` : 'Busca'}
-              </h1>
-            </div>
+    <div className={`${athiti.className} min-h-screen bg-slate-950 text-white px-8 py-6`}>
+      <div className="max-w-7xl mx-auto">
+        <div className="flex justify-between items-center mb-6">
+          <div className="flex items-center gap-4">
             <button
-              onClick={() => setShowShortcuts(prev => !prev)}
+              onClick={handleBack}
               className="text-gray-400 hover:text-white transition-colors p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2 focus:ring-offset-slate-950"
-              aria-label={showShortcuts ? "Esconder atalhos do teclado" : "Mostrar atalhos do teclado"}
-              aria-expanded={showShortcuts}
+              aria-label="Voltar para a página anterior ou página inicial"
             >
-              <span className="sr-only">Teclas de atalho</span>
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
             </button>
+            <h1 className={`${marvel.className} text-3xl`}>
+              {query ? `Resultados para "${query}"` : 'Busca'}
+            </h1>
           </div>
-
-          {showShortcuts && (
-            <div 
-              className="bg-slate-800 rounded-lg p-4 mb-6 text-sm"
-              role="dialog"
-              aria-label="Atalhos do teclado"
-            >
-              <h2 className="font-semibold mb-2">Atalhos do teclado:</h2>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                <li><kbd className="bg-slate-700 px-2 py-1 rounded">Alt</kbd> + <kbd className="bg-slate-700 px-2 py-1 rounded">Backspace</kbd> Voltar</li>
-                <li><kbd className="bg-slate-700 px-2 py-1 rounded">←</kbd> Página anterior</li>
-                <li><kbd className="bg-slate-700 px-2 py-1 rounded">→</kbd> Próxima página</li>
-                <li><kbd className="bg-slate-700 px-2 py-1 rounded">Home</kbd> Primeira página</li>
-                <li><kbd className="bg-slate-700 px-2 py-1 rounded">End</kbd> Última página</li>
-                <li><kbd className="bg-slate-700 px-2 py-1 rounded">?</kbd> Mostrar/esconder atalhos</li>
-                <li><kbd className="bg-slate-700 px-2 py-1 rounded">Esc</kbd> Fechar atalhos</li>
-              </ul>
-            </div>
-          )}
-          
-          {isLoading && !results.length ? (
-            <LoadingSkeleton />
-          ) : error ? (
-            <div className="text-red-400 text-center py-8" role="alert">{error}</div>
-          ) : results.length > 0 ? (
-            <>
-              <div className="text-gray-400 mb-6">
-                <span className="sr-only">Total de </span>
-                {totalResults} resultados encontrados
-                {query && (
-                  <>
-                    <span className="sr-only"> para a busca </span>
-                    para &ldquo;{query}&rdquo;
-                  </>
-                )}
-                <span className="sr-only">. Página {currentPage} de {totalPages}</span>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {results.map((result) => (
-                  <Link 
-                    key={result.id}
-                    href={getMediaLink(result)}
-                    className={isLoading ? 'pointer-events-none' : ''}
-                  >
-                    <ResultCard result={result} loading={isLoading} />
-                  </Link>
-                ))}
-              </div>
-              
-              {totalPages > 1 && (
-                <div className={`flex justify-center gap-2 mt-8 transition-opacity duration-200 ${
-                  isLoading ? 'opacity-50 pointer-events-none' : ''
-                }`}>
-                  <PaginationButton 
-                    page="Previous"
-                    disabled={currentPage <= 1}
-                  />
-                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                    let pageNum;
-                    if (totalPages <= 5) {
-                      pageNum = i + 1;
-                    } else if (currentPage <= 3) {
-                      pageNum = i + 1;
-                    } else if (currentPage >= totalPages - 2) {
-                      pageNum = totalPages - 4 + i;
-                    } else {
-                      pageNum = currentPage - 2 + i;
-                    }
-                    return (
-                      <PaginationButton
-                        key={pageNum}
-                        page={pageNum}
-                        isActive={pageNum === currentPage}
-                      />
-                    );
-                  })}
-                  <PaginationButton 
-                    page="Next"
-                    disabled={currentPage >= totalPages}
-                  />
-                </div>
-              )}
-            </>
-          ) : query && (
-            <div className="text-center py-8 text-gray-400" role="status">
-              Nenhum resultado encontrado para &ldquo;{query}&rdquo;
-            </div>
-          )}
+          <button
+            onClick={() => setShowShortcuts(prev => !prev)}
+            className="text-gray-400 hover:text-white transition-colors p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-offset-2 focus:ring-offset-slate-950"
+            aria-label={showShortcuts ? "Esconder atalhos do teclado" : "Mostrar atalhos do teclado"}
+            aria-expanded={showShortcuts}
+          >
+            <span className="sr-only">Teclas de atalho</span>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </button>
         </div>
+
+        {showShortcuts && (
+          <div 
+            className="bg-slate-800 rounded-lg p-4 mb-6 text-sm"
+            role="dialog"
+            aria-label="Atalhos do teclado"
+          >
+            <h2 className="font-semibold mb-2">Atalhos do teclado:</h2>
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              <li><kbd className="bg-slate-700 px-2 py-1 rounded">Alt</kbd> + <kbd className="bg-slate-700 px-2 py-1 rounded">Backspace</kbd> Voltar</li>
+              <li><kbd className="bg-slate-700 px-2 py-1 rounded">←</kbd> Página anterior</li>
+              <li><kbd className="bg-slate-700 px-2 py-1 rounded">→</kbd> Próxima página</li>
+              <li><kbd className="bg-slate-700 px-2 py-1 rounded">Home</kbd> Primeira página</li>
+              <li><kbd className="bg-slate-700 px-2 py-1 rounded">End</kbd> Última página</li>
+              <li><kbd className="bg-slate-700 px-2 py-1 rounded">?</kbd> Mostrar/esconder atalhos</li>
+              <li><kbd className="bg-slate-700 px-2 py-1 rounded">Esc</kbd> Fechar atalhos</li>
+            </ul>
+          </div>
+        )}
+        
+        {isLoading && !results.length ? (
+          <LoadingSkeleton />
+        ) : error ? (
+          <div className="text-red-400 text-center py-8" role="alert">{error}</div>
+        ) : results.length > 0 ? (
+          <>
+            <div className="text-gray-400 mb-6">
+              <span className="sr-only">Total de </span>
+              {totalResults} resultados encontrados
+              {query && (
+                <>
+                  <span className="sr-only"> para a busca </span>
+                  para &ldquo;{query}&rdquo;
+                </>
+              )}
+              <span className="sr-only">. Página {currentPage} de {totalPages}</span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {results.map((result) => (
+                <button
+                  key={result.id}
+                  onClick={() => router.push(getMediaLink(result), { scroll: false })}
+                  className={`text-left ${isLoading ? 'pointer-events-none' : ''}`}
+                >
+                  <ResultCard result={result} loading={isLoading} />
+                </button>
+              ))}
+            </div>
+            
+            {totalPages > 1 && (
+              <div className={`flex justify-center gap-2 mt-8 transition-opacity duration-200 ${
+                isLoading ? 'opacity-50 pointer-events-none' : ''
+              }`}>
+                <PaginationButton 
+                  page="Previous"
+                  disabled={currentPage <= 1}
+                />
+                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                  let pageNum;
+                  if (totalPages <= 5) {
+                    pageNum = i + 1;
+                  } else if (currentPage <= 3) {
+                    pageNum = i + 1;
+                  } else if (currentPage >= totalPages - 2) {
+                    pageNum = totalPages - 4 + i;
+                  } else {
+                    pageNum = currentPage - 2 + i;
+                  }
+                  return (
+                    <PaginationButton
+                      key={pageNum}
+                      page={pageNum}
+                      isActive={pageNum === currentPage}
+                    />
+                  );
+                })}
+                <PaginationButton 
+                  page="Next"
+                  disabled={currentPage >= totalPages}
+                />
+              </div>
+            )}
+          </>
+        ) : query && (
+          <div className="text-center py-8 text-gray-400" role="status">
+            Nenhum resultado encontrado para &ldquo;{query}&rdquo;
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 }
