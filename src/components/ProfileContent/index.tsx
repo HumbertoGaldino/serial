@@ -7,7 +7,7 @@ import { TbDeviceTvOldFilled } from "react-icons/tb";
 import { MdLocalMovies } from "react-icons/md";
 import { BiTime } from "react-icons/bi";
 import { BsFillCalendarDateFill } from "react-icons/bs";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MediaCard from "./MediaCard";
 import ImageUploader from "../ImageUploader";
 import { updateProfileImage } from "@/app/actions/updateProfileImage";
@@ -70,19 +70,41 @@ export default function ProfileContent({ profileData: initialProfileData }: Prof
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    setProfileData(initialProfileData);
+  }, [initialProfileData]);
+
   const handleImageUpload = async (imageUrl: string) => {
     try {
       setIsUploading(true);
       setError(null);
+      
+      // Then update server in background
       const updatedProfile = await updateProfileImage(imageUrl);
-      setProfileData(updatedProfile);
+      
+      // Only update the imgProfile field if the server request was successful
+      if (updatedProfile && typeof updatedProfile === 'object') {
+        setProfileData(prev => ({
+          ...prev,
+          imgProfile: updatedProfile.imgProfile || imageUrl
+        }));
+      } else {
+        throw new Error('Invalid server response');
+      }
     } catch (err) {
       console.error("Failed to update profile image:", err);
       setError("Failed to update profile image. Please try again.");
+      
+      // No need to revert the entire profile data, just the image
+      setProfileData(prev => ({
+        ...prev,
+        imgProfile: initialProfileData.imgProfile
+      }));
     } finally {
       setIsUploading(false);
     }
   };
+
   const t = useTranslations("Profile");
 
   if (!profileData) return null;
@@ -105,28 +127,32 @@ export default function ProfileContent({ profileData: initialProfileData }: Prof
 
       {/* Profile Section */}
       <div className="relative px-8 py-6">
-        {/* Profile Image */}
-        <div className="group relative -top-20 left-8 w-40 h-40 rounded-full border-4 border-slate-950 overflow-hidden bg-slate-800">
-          {profileData.imgProfile ? (
-            <Image
-              src={`${profileData.imgProfile}/w_160,c_fill,ar_1:1,g_auto,r_max,bo_4px_solid_rgb:6b41b6`}
-              alt={profileData.name || "Profile"}
-              fill
-              className="object-cover"
-              sizes="160px"
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-4xl text-slate-600">
-              {profileData?.name?.charAt(0)?.toUpperCase() || "U"}
+        {/* Profile Image Container */}
+        <div className="group relative -top-20 left-8 w-40 h-40">
+          <div className="relative w-full h-full rounded-full border-4 border-[#6b41b6] overflow-hidden bg-slate-800 transition-all duration-300 group-hover:border-opacity-75">
+            {profileData.imgProfile ? (
+              <Image
+                src={`${profileData.imgProfile}?w_400,h_400,c_fill,g_face,f_auto,q_auto`}
+                alt={profileData.name || "Profile"}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 160px, 160px"
+                priority
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-4xl text-slate-600">
+                {profileData?.name?.charAt(0)?.toUpperCase() || "U"}
+              </div>
+            )}
+            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-300" />
+            <div className="absolute bottom-2 right-2 z-20">
+              <ImageUploader handleImageUpload={handleImageUpload} isLoading={isUploading} />
             </div>
-          )}
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
-          <div className="absolute bottom-0 right-0 z-30">
-            <ImageUploader onImageSelected={handleImageUpload} isLoading={isUploading} />
           </div>
         </div>
+
         {error && (
-          <div className="absolute -bottom-8 left-0 right-0 text-center z-20">
+          <div className="absolute -bottom-8 left-0 right-0 text-center">
             <p className="text-red-500 text-sm">{error}</p>
           </div>
         )}

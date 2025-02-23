@@ -13,7 +13,7 @@ export default function ProfileLayout({ children }: { children: ReactNode }) {
     <div className="flex flex-row">
       <AsideMenu />
 
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col w-full min-h-screen">
         <Header />
         {children}
       </div>

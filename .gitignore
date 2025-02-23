@@ -23,6 +23,7 @@ package-lock.json
 
 # github
 /.github
+memory-bank
 
 # misc
 .cursorrules

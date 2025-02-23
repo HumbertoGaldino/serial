@@ -4,6 +4,7 @@ import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
   const token = request.cookies.get("auth_token")?.value;
+  const cookieStore = await cookies();
 
   if (!token) {
     return NextResponse.redirect(new URL("/", request.url));
@@ -19,8 +20,13 @@ export async function middleware(request: NextRequest) {
     });
 
     if (!response.ok) {
-      await cookies().then((cookieStore) => cookieStore.delete("auth_token"));
+      cookieStore.delete("auth_token");
       return NextResponse.redirect(new URL("/", request.url));
+    }
+
+    if (!cookieStore.get("user_id")?.value) {
+      const user_id = await response.json().then((data) => data.decoded?.id);
+      cookieStore.set("user_id", user_id);
     }
 
     return NextResponse.next();

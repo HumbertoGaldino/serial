@@ -2,7 +2,11 @@
 
 import { cookies } from "next/headers";
 
-export async function updateProfileImage(imageUrl: string) {
+interface ProfileResponse {
+  message: string;
+}
+
+export async function updateProfileImage(imageUrl: string): Promise<ProfileResponse> {
   const cookieStore = await cookies();
   const userId = cookieStore.get("user_id")?.value;
 
@@ -10,7 +14,7 @@ export async function updateProfileImage(imageUrl: string) {
     throw new Error("Unauthorized");
   }
 
-  const response = await fetch(`${process.env.API_URL}/user/profile/${userId}`, {
+  const response = await fetch(`${process.env.API_URL}/user/${userId}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -21,8 +25,9 @@ export async function updateProfileImage(imageUrl: string) {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to update profile image");
+    throw new Error(response.statusText || "Failed to update profile image");
   }
 
-  return await response.json();
+  const result = await response.json();
+  return result as ProfileResponse;
 }

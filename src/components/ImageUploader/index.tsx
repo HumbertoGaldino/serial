@@ -6,11 +6,17 @@ import { BsCameraFill } from "react-icons/bs";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 interface ImageUploaderProps {
-  onImageSelected: (imageUrl: string) => void;
+  handleImageUpload: (imageUrl: string) => void;
   isLoading?: boolean;
 }
 
-export default function ImageUploader({ onImageSelected, isLoading }: ImageUploaderProps) {
+type CloudinarySecureURL = {
+  info: {
+    secure_url: string;
+  };
+}
+
+export default function ImageUploader({ handleImageUpload, isLoading }: ImageUploaderProps) {
   const [error, setError] = useState<string | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -28,17 +34,44 @@ export default function ImageUploader({ onImageSelected, isLoading }: ImageUploa
         cropping: true,
         showSkipCropButton: false,
         folder: "profiles",
+        theme: "purple",
+        styles: {
+          palette: {
+            window: "#0f172a",
+            windowBorder: "#6b41b6",
+            tabIcon: "#6b41b6",
+            menuIcons: "#6b41b6",
+            textDark: "#FFFFFF",
+            textLight: "#fcfcfc",
+            link: "#6b41b6",
+            action: "#6b41b6",
+            inactiveTabIcon: "#8E8E8E",
+            error: "#F44235",
+            inProgress: "#6b41b6",
+            complete: "#20B832",
+            sourceBg: "#0f172a"
+          },
+          frame: {
+            background: "#0f172a"
+          },
+          fonts: {
+            default: null,
+            "'Space Grotesk', sans-serif": {
+              url: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap",
+              active: true
+            }
+          }
+        },
       }}
       onSuccess={(result) => {
         if (result.info && typeof result.info === "object" && "secure_url" in result.info) {
           const url = result.info.secure_url as string;
-          onImageSelected(url);
+          handleImageUpload(url);
           setError(null);
         }
       }}
       onError={(error) => {
-        console.error("Upload error:", error);
-        setError("Failed to upload image. Please try again.");
+        setError("Image upload failed. Please try again.");
       }}
     >
       {({ open }) => (
@@ -46,7 +79,7 @@ export default function ImageUploader({ onImageSelected, isLoading }: ImageUploa
           ref={buttonRef}
           onClick={() => open()}
           disabled={isLoading}
-          className="absolute bottom-0 right-0 bg-[#6b41b6] p-2 rounded-full text-white hover:bg-[#553291] transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed z-20"
+          className="absolute bottom-3 right-3 bg-[#6b41b6] p-2.5 rounded-full text-white hover:bg-[#553291] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-110 active:scale-95"
           title="Upload profile picture"
         >
           {isLoading ? (
