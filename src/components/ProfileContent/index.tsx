@@ -7,7 +7,10 @@ import { TbDeviceTvOldFilled } from "react-icons/tb";
 import { MdLocalMovies } from "react-icons/md";
 import { BiTime } from "react-icons/bi";
 import { BsFillCalendarDateFill } from "react-icons/bs";
+import { useState } from "react";
 import MediaCard from "./MediaCard";
+import ImageUploader from "../ImageUploader";
+import { updateProfileImage } from "@/app/actions/updateProfileImage";
 
 const marvel = Marvel({
   subsets: ["latin"],
@@ -62,7 +65,21 @@ const formatDate = (dateString: string) => {
   });
 };
 
-export default function ProfileContent({ profileData }: ProfileContentProps) {
+export default function ProfileContent({ profileData: initialProfileData }: ProfileContentProps) {
+  const [profileData, setProfileData] = useState(initialProfileData);
+  const [isUploading, setIsUploading] = useState(false);
+
+  const handleImageUpload = async (imageUrl: string) => {
+    try {
+      setIsUploading(true);
+      const updatedProfile = await updateProfileImage(imageUrl);
+      setProfileData(updatedProfile);
+    } catch (error) {
+      console.error("Failed to update profile image:", error);
+    } finally {
+      setIsUploading(false);
+    }
+  };
   const t = useTranslations("Profile");
 
   return (
@@ -84,7 +101,7 @@ export default function ProfileContent({ profileData }: ProfileContentProps) {
       {/* Profile Section */}
       <div className="relative px-8 py-6">
         {/* Profile Image */}
-        <div className="absolute -top-20 left-8 w-40 h-40 rounded-full border-4 border-slate-950 overflow-hidden bg-slate-800">
+        <div className="group relative -top-20 left-8 w-40 h-40 rounded-full border-4 border-slate-950 overflow-hidden bg-slate-800">
           {profileData.imgProfile ? (
             <Image
               src={profileData.imgProfile}
@@ -97,6 +114,8 @@ export default function ProfileContent({ profileData }: ProfileContentProps) {
               {profileData.name.charAt(0).toUpperCase()}
             </div>
           )}
+          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <ImageUploader onImageSelected={handleImageUpload} isLoading={isUploading} />
         </div>
 
         {/* Profile Info */}
