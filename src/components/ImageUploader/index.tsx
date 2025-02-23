@@ -46,7 +46,7 @@ export default function ImageUploader({ onImageSelected, isLoading }: ImageUploa
           ref={buttonRef}
           onClick={() => open()}
           disabled={isLoading}
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#6b41b6] p-2 rounded-full text-white hover:bg-[#553291] transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed z-10"
+          className="absolute bottom-0 right-0 bg-[#6b41b6] p-2 rounded-full text-white hover:bg-[#553291] transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed z-20"
           title="Upload profile picture"
         >
           {isLoading ? (

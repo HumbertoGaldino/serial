@@ -66,16 +66,19 @@ const formatDate = (dateString: string) => {
 };
 
 export default function ProfileContent({ profileData: initialProfileData }: ProfileContentProps) {
-  const [profileData, setProfileData] = useState(initialProfileData);
+  const [profileData, setProfileData] = useState<ProfileData>(initialProfileData);
   const [isUploading, setIsUploading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleImageUpload = async (imageUrl: string) => {
     try {
       setIsUploading(true);
+      setError(null);
       const updatedProfile = await updateProfileImage(imageUrl);
       setProfileData(updatedProfile);
-    } catch (error) {
-      console.error("Failed to update profile image:", error);
+    } catch (err) {
+      console.error("Failed to update profile image:", err);
+      setError("Failed to update profile image. Please try again.");
     } finally {
       setIsUploading(false);
     }
@@ -104,10 +107,11 @@ export default function ProfileContent({ profileData: initialProfileData }: Prof
         <div className="group relative -top-20 left-8 w-40 h-40 rounded-full border-4 border-slate-950 overflow-hidden bg-slate-800">
           {profileData.imgProfile ? (
             <Image
-              src={profileData.imgProfile}
+              src={`${profileData.imgProfile}/w_160,c_fill,ar_1:1,g_auto,r_max,bo_4px_solid_rgb:6b41b6`}
               alt={profileData.name}
               fill
               className="object-cover"
+              sizes="160px"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-4xl text-slate-600">
@@ -117,6 +121,11 @@ export default function ProfileContent({ profileData: initialProfileData }: Prof
           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           <ImageUploader onImageSelected={handleImageUpload} isLoading={isUploading} />
         </div>
+        {error && (
+          <div className="absolute -bottom-8 left-0 right-0 text-center">
+            <p className="text-red-500 text-sm">{error}</p>
+          </div>
+        )}
 
         {/* Profile Info */}
         <div className="ml-52">
