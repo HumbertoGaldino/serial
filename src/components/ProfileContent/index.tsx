@@ -85,6 +85,8 @@ export default function ProfileContent({ profileData: initialProfileData }: Prof
   };
   const t = useTranslations("Profile");
 
+  if (!profileData) return null;
+
   return (
     <main className="flex flex-col w-full min-h-[90vh] bg-slate-950">
       {/* Background Image */}
@@ -108,21 +110,23 @@ export default function ProfileContent({ profileData: initialProfileData }: Prof
           {profileData.imgProfile ? (
             <Image
               src={`${profileData.imgProfile}/w_160,c_fill,ar_1:1,g_auto,r_max,bo_4px_solid_rgb:6b41b6`}
-              alt={profileData.name}
+              alt={profileData.name || "Profile"}
               fill
               className="object-cover"
               sizes="160px"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-4xl text-slate-600">
-              {profileData.name.charAt(0).toUpperCase()}
+              {profileData?.name?.charAt(0)?.toUpperCase() || "U"}
             </div>
           )}
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          <ImageUploader onImageSelected={handleImageUpload} isLoading={isUploading} />
+          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+          <div className="absolute bottom-0 right-0 z-30">
+            <ImageUploader onImageSelected={handleImageUpload} isLoading={isUploading} />
+          </div>
         </div>
         {error && (
-          <div className="absolute -bottom-8 left-0 right-0 text-center">
+          <div className="absolute -bottom-8 left-0 right-0 text-center z-20">
             <p className="text-red-500 text-sm">{error}</p>
           </div>
         )}
@@ -149,7 +153,7 @@ export default function ProfileContent({ profileData: initialProfileData }: Prof
           </div>
           <div>
             <h2 className="text-3xl font-bold text-white">
-              {profileData.movies.length}
+              {profileData.movies?.length || 0}
             </h2>
             <p className="text-gray-400 text-sm uppercase tracking-wider">
               {t("movies")}
@@ -164,7 +168,7 @@ export default function ProfileContent({ profileData: initialProfileData }: Prof
           </div>
           <div>
             <h2 className="text-3xl font-bold text-white">
-              {profileData.episodesCount}
+              {profileData.episodesCount || 0}
             </h2>
             <p className="text-gray-400 text-sm uppercase tracking-wider">
               {t("episodes")}
@@ -179,8 +183,8 @@ export default function ProfileContent({ profileData: initialProfileData }: Prof
           </div>
           <div>
             <h2 className="text-3xl font-bold text-white">
-              {formatTime(profileData.totalRunTime).hours}h{" "}
-              {formatTime(profileData.totalRunTime).minutes}m
+              {formatTime(profileData.totalRunTime || 0).hours}h{" "}
+              {formatTime(profileData.totalRunTime || 0).minutes}m
             </h2>
             <p className="text-gray-400 text-sm uppercase tracking-wider">
               {t("watchTime")}
@@ -190,7 +194,7 @@ export default function ProfileContent({ profileData: initialProfileData }: Prof
       </div>
 
       {/* Genres */}
-      {profileData.genres.length > 0 && (
+      {profileData.genres?.length > 0 && (
         <div className="px-8 py-6">
           <h2 className={`${marvel.className} text-2xl text-white mb-4`}>
             {t("favoriteGenres")}
@@ -212,7 +216,7 @@ export default function ProfileContent({ profileData: initialProfileData }: Prof
       <div className="px-8 py-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Favorite Movies */}
-          {profileData.movies.length > 0 && (
+          {profileData.movies?.length > 0 && (
             <div className="bg-slate-900 rounded-lg p-6 shadow-lg">
               <h2 className={`${marvel.className} text-2xl text-white mb-4`}>
                 {t("favoriteMovies")}
@@ -233,7 +237,7 @@ export default function ProfileContent({ profileData: initialProfileData }: Prof
           )}
 
           {/* Favorite TV Shows */}
-          {profileData.castTvShow.length > 0 && (
+          {profileData.castTvShow?.length > 0 && (
             <div className="bg-slate-900 rounded-lg p-6 shadow-lg">
               <h2 className={`${marvel.className} text-2xl text-white mb-4`}>
                 {t("favoriteTVShows")}
