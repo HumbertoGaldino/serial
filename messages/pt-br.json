@@ -47,7 +47,13 @@
     "hours": "Horas",
     "minutes": "Minutos",
     "count-episodes": "Episódios Assistidos",
-    "count-movies": "Filmes Assistidos"
+    "count-movies": "Filmes Assistidos",
+    "joined": "Entrou em",
+    "watchTime": "Tempo Assistido",
+    "episodes": "Episódios",
+    "favoriteGenres": "Gêneros Favoritos",
+    "favoriteMovies": "Filmes Favoritos",
+    "favoriteTVShows": "Séries Favoritas"
   },
   "AsideMenu": {
     "dashboard": "Painel",

@@ -42,6 +42,12 @@
     "hours": "Hours",
     "minutes": "Minutes",
     "count-episodes": "Episodes Watched",
-    "count-movies": "Movies Watched"
+    "count-movies": "Movies Watched",
+    "joined": "Joined",
+    "watchTime": "Watch Time",
+    "episodes": "Episodes",
+    "favoriteGenres": "Favorite Genres",
+    "favoriteMovies": "Favorite Movies",
+    "favoriteTVShows": "Favorite TV Shows"
   }
 }
