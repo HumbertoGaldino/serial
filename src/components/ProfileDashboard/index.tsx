@@ -2,7 +2,6 @@
 
 import { TbDeviceTvOldFilled } from "react-icons/tb";
 import { MdLocalMovies } from "react-icons/md";
-import Favorites from "../Favorites";
 import { useTranslations } from "next-intl";
 
 export default function ProfileDashboard() {
@@ -50,7 +49,7 @@ export default function ProfileDashboard() {
           </div>
 
           <div className="w-full flex gap-2 flex-1">
-            <Favorites />
+            
           </div>
         </div>
       </div>

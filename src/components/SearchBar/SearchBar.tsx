@@ -5,6 +5,7 @@ import { SearchMulti } from '@/app/actions/searchMulti';
 import { Athiti } from "next/font/google";
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { MdImageNotSupported } from 'react-icons/md';
 
 const athiti = Athiti({
   subsets: ["latin"],
@@ -125,7 +126,7 @@ export default function SearchBar() {
   };
 
   const getImageUrl = (result: SearchResult) => {
-    const path = result.poster_path || result.profile_path;
+    const path = result.poster_path;
     return path ? `https://image.tmdb.org/t/p/w92${path}` : null;
   };
 
@@ -203,7 +204,7 @@ export default function SearchBar() {
                   onMouseEnter={() => setSelectedIndex(index)}
                   onMouseLeave={() => setSelectedIndex(-1)}
                 >
-                  {getImageUrl(result) && (
+                  {getImageUrl(result) != null ? (
                     <Image
                       src={getImageUrl(result)!}
                       alt={getTitle(result)}
@@ -212,6 +213,10 @@ export default function SearchBar() {
                       className="object-cover rounded mr-3"
                       unoptimized
                     />
+                  ) : (
+                    <div className="w-[40px] h-[56px] bg-transparent border border-yellow-400 rounded mr-3 flex items-center justify-center">
+                      <MdImageNotSupported className="w-6 h-6 text-yellow-400" />
+                    </div>
                   )}
                   <div className="flex flex-col">
                     <span className="text-white font-semibold">{getTitle(result)}</span>

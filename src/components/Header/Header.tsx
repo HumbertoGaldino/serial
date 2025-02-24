@@ -10,7 +10,7 @@ const marvel = Marvel({
 export default function Header() {
   return (
     <header
-      className={`${marvel.className} max-h-[10vh] flex items-center justify-between py-4 px-8 bg-slate-950`}
+      className={`${marvel.className} h-[10vh] flex items-center justify-between py-4 px-8 bg-slate-950`}
     >
       <SearchBar />
       <div className="flex items-center gap-4">

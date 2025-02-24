@@ -23,6 +23,8 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
         primary: "#6741B9",
+        secondary: "#FFFE00",
+        primaryBlack: "#3A2569"
       },
       backgroundImage: {
         discover: "url(/discover-bg.png)",

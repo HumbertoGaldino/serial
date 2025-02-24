@@ -1,4 +1,3 @@
- 
 "use client";
 
 import { useState, useEffect } from "react";
@@ -8,6 +7,8 @@ import { fetchMovie } from "@/app/actions/fetchMovie";
 import LoadingSpinner from "@/src/components/LoadingSpinner/LoadingSpinner";
 import TitleHeader from "@/src/components/TitleHeader";
 import CastingCards from "@/src/components/CastingCards";
+import YouTubeVideo from "@/src/components/YouTubeVideo";
+import RecommendedTitles from "@/src/components/RecommendedTitles";
 
 interface Genre {
   id: number;
@@ -117,9 +118,11 @@ export default function MoviePage() {
           <LoadingSpinner />
       </div>
     ):(
-      <>
+      <div className="lg-max:w-[85vw] 3xl:w-[90vw]">
         <TitleHeader type={movie}/>
-        <CastingCards cast={movie}/>
-      </>
+        <CastingCards type='movie'/>
+        <YouTubeVideo type='movie'/>
+        <RecommendedTitles type='movie'/>
+      </div>
   );
 }
