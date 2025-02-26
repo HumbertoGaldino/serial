@@ -4,23 +4,30 @@ import { FaYoutube } from "react-icons/fa";
 import { Bebas_Neue } from "next/font/google";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import { fetchVideo } from "@/app/actions/fetchVideo";
+import { fetchVideoSeason } from "@/app/actions/fetchVideoSeason";
 
 const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
   weight: ["400"],
 });
 
-export default function YouTubeVideo({ type }: { type: string }){
-    const { id } = useParams();
+export default function YouTubeVideo({ type, isSeason }: { type: string, isSeason: boolean }){
+    const { id, season_number } = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const [video, setVideo] = useState<object>();
 
     useEffect(() => {
         const fetchVideoData = async () => {
-          try {              
-            const data = await fetchVideo(id,type);
-            
-            setVideo(data);
+          try {
+            const data = isSeason 
+              ? await fetchVideoSeason(id, season_number) 
+              : await fetchVideo(id, type);
+
+            if (!isSeason || data.results?.length > 0) {
+              setVideo(data);
+            } else {
+              setVideo(await fetchVideo(id, type));
+            }           
           } catch (error) {
             console.error("Erro ao buscar o filme:", error);
           }
