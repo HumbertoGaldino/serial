@@ -25,7 +25,7 @@ export default function SeasonsCards({ seasons, type, idTvshow }: { seasons: Arr
               Temporadas
             </h2>
 
-            <div className="w-[95%] h-[50vh]">
+            <div className="w-[95%]">
                 {   
                     seasons?.length > 0 ? (
                         <SwipperFocusCards cards={seasons} type={type} isSeason='true' idTvshow={idTvshow}/>

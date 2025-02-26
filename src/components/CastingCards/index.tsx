@@ -80,14 +80,14 @@ export default function CastingCards({ type }: { type: string }) {
                                       alt={cast.name}
                                       width={1000}
                                       height={1000}
-                                      className="rounded-t-2xl w-[150px] h-[150px] object-cover"
+                                      className="rounded-t-lg w-[150px] h-[150px] object-cover"
                                   />
                                 :
-                                <div className="w-[150px] h-[150px] rounded-t-2xl bg-primaryBlack flex items-center justify-center text-white text-center">
+                                <div className="w-[150px] h-[150px] rounded-t-lg bg-primaryBlack flex items-center justify-center text-white text-center">
                                   <MdImageNotSupported className='text-secondary text-4xl' />
                                 </div>
                               }
-                              <div className="h-[100px] w-[150px] p-2 rounded-b-2xl bg-slate-900 flex flex-col items-center justify-start">
+                              <div className="h-[100px] w-[150px] p-2 rounded-b-lg bg-slate-900 flex flex-col items-center justify-start">
                                   <h4 className={`${bebasNeue.className} text-xl text-white text-center leading-5`}>{cast.name}</h4>
                                   <h5 className={`${athiti.className}text-lg text-bold text-white text-center leading-4`}>{cast.character}</h5>
                               </div>

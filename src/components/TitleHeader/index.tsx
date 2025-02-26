@@ -20,15 +20,20 @@ export default function TitleHeader({ type }: { type: object }){
     let runtimeValue = null;
     if(type.episodes?.length > 0) {
       runtimeValue = type.episodes[0].runtime;
+    } else if(type.season.episodes.length > 0){
+      runtimeValue = type.season.episodes[0].runtime;
     } else {
       runtimeValue = type.runtime ?? type.last_episode_to_air?.runtime;
     }
+   
+    console.log(type);
 
     if (runtimeValue) {
       const hours = Math.floor(runtimeValue / 60);
       const minutes = runtimeValue % 60;
       runTime = hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
     }
+
 
     const formatData = (dateString: string) => {
       return dayjs(dateString).format("DD/MM/YYYY");
@@ -61,12 +66,15 @@ export default function TitleHeader({ type }: { type: object }){
             
             <div className="flex flex-row w-full items-center justify-center relative z-4 p-4">
               <div className="relative z-3 p-4 w-[70%] flex flex-col items-center justify-center gap-3">
-                <div className='flex flex-col items-center justify-center w-full text-white text-center mb-4'>
+                <div className='flex flex-col items-center justify-center w-full text-white text-center mb-2'>
                   <ApprovalCircle voteAverage={type.vote_average}/>
                   <StarRating voteAverage={type.vote_average} />
                   <h1 className={`${bebasNeue.className} w-[60%] text-6xl mt-4`}>
                     {type.title ? type.title : type.name}
                   </h1>
+                  {
+                    type.season ? <h2 className={`${bebasNeue.className} text-2xl`}>{type.season.name}</h2> : ''
+                  }
                   <div className={`${athiti.className} flex flex-row gap-2 items-center justify-center font-medium`}>
                     <span>{type.release_date ? formatData(type.release_date) + ' (BR) |' : ''}</span>
                     {

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { fetchTvShow } from "@/app/actions/fetchTvShow";
 import { fetchSeason } from "@/app/actions/fetchSeason";
 import LoadingSpinner from "@/src/components/LoadingSpinner/LoadingSpinner";
 import TitleHeader from "@/src/components/TitleHeader";
@@ -115,17 +116,28 @@ export default function TvShowPage() {
 
   useEffect(() => {
     const fetchSeasonData = async () => {
-      try {              
-        const data = await fetchSeason(id, season_number);
-        setSeason(data);
+      try {
+        setIsLoading(true);
+  
+        const [tvShowData, seasonData] = await Promise.all([
+          fetchTvShow(id),
+          fetchSeason(id, season_number)
+        ]);
+  
+        setSeason({
+          ...tvShowData,
+          season: seasonData,
+        });
+  
       } catch (error) {
         console.error("Erro ao buscar a temporada:", error);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
-
+  
     fetchSeasonData();
-  }, [id, season_number]);
+  }, [id, season_number]);  
 
 
   return isLoading ? (

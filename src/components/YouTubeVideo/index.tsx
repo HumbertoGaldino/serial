@@ -40,7 +40,7 @@ export default function YouTubeVideo({ type, isSeason }: { type: string, isSeaso
 
 
     return (
-        <div className="flex flex-col lg-max:w-[85vw] 3xl:w-[90vw] items-center justify-center flex-1 relative z-9999 bg-slate-950 relative z-1 p-4">
+        <div className="flex flex-col lg-max:w-[85vw] 3xl:w-[90vw] items-center justify-center flex-1 relative z-9999 bg-slate-950 relative z-1 p-6">
             
             <h2
               className={`${bebasNeue.className} w-[95%] flex flex-row bg-opacity-70 text-primary 3xl:text-[4em] 3xl:tracking-[0.3em] 3xl:mb-10 lg-max:text-[2em] lg-max:tracking-[0.3em] lg-max:mb-5 border-b-4 border-primary`}
