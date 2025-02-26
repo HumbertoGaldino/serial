@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import MediaCard from "./MediaCard";
 import ImageUploader from "../ImageUploader";
 import { updateProfileImage } from "@/app/actions/updateProfileImage";
+import FavoriteMoviesCards from "../FavoriteMoviesCards";
 
 const marvel = Marvel({
   subsets: ["latin"],
@@ -126,7 +127,7 @@ export default function ProfileContent({ profileData: initialProfileData }: Prof
       </div>
 
       {/* Profile Section */}
-      <div className="relative px-8 py-6">
+      <div className="flex flex-row relative px-8 py-6">
         {/* Profile Image Container */}
         <div className="group relative -top-20 left-8 w-40 h-40">
           <div className="relative w-full h-full rounded-full border-4 border-[#6b41b6] overflow-hidden bg-slate-800 transition-all duration-300 group-hover:border-opacity-75">
@@ -158,7 +159,7 @@ export default function ProfileContent({ profileData: initialProfileData }: Prof
         )}
 
         {/* Profile Info */}
-        <div className="ml-52">
+        <div className="relative top-[-20] left-16">
           <h1 className={`${marvel.className} text-4xl text-white mb-2`}>
             {profileData.name} {profileData.lastname}
           </h1>
@@ -239,32 +240,23 @@ export default function ProfileContent({ profileData: initialProfileData }: Prof
       )}
 
       {/* Favorites Section */}
-      <div className="px-8 py-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="w-full px-8 py-6">
+        <div className="w-full flex flex-wrap gap-6">
           {/* Favorite Movies */}
           {profileData.movies?.length > 0 && (
-            <div className="bg-slate-900 rounded-lg p-6 shadow-lg">
+            <div className="w-full bg-slate-900 rounded-lg p-6 shadow-lg">
               <h2 className={`${marvel.className} text-2xl text-white mb-4`}>
                 {t("favoriteMovies")}
               </h2>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                {profileData.movies.map((movie) => (
-                  <MediaCard
-                    key={movie.id}
-                    type="movie"
-                    id={movie.id}
-                    title={movie.title}
-                    poster_path={movie.poster_path}
-                    date={movie.release_date}
-                  />
-                ))}
+              <div className="flex flex-row rounded-2xl bg-slate-800 p-4">
+                <FavoriteMoviesCards movies={profileData.movies} />
               </div>
             </div>
           )}
 
           {/* Favorite TV Shows */}
           {profileData.castTvShow?.length > 0 && (
-            <div className="bg-slate-900 rounded-lg p-6 shadow-lg">
+            <div className="w-full bg-slate-900 rounded-lg p-6 shadow-lg">
               <h2 className={`${marvel.className} text-2xl text-white mb-4`}>
                 {t("favoriteTVShows")}
               </h2>
