@@ -39,11 +39,7 @@ export default function YouTubeVideo({ type, isSeason }: { type: string, isSeaso
 
 
 
-    return isLoading ? (
-        <div className="flex flex-col lg-max:max-w-[85vw] 3xl:max-w-[90vw] items-center justify-center flex-1 relative z-9999 bg-slate-950 relative z-1">
-            <LoadingSpinner />
-        </div>
-      ):(
+    return (
         <div className="flex flex-col lg-max:w-[85vw] 3xl:w-[90vw] items-center justify-center flex-1 relative z-9999 bg-slate-950 relative z-1 p-4">
             
             <h2
@@ -53,6 +49,9 @@ export default function YouTubeVideo({ type, isSeason }: { type: string, isSeaso
               Trailer
             </h2>
             {
+              isLoading ?
+                <LoadingSpinner />
+                :
                 video?.results?.length > 0 ? ( 
                     <iframe className="w-[90%] h-[80vh] rounded-lg" height="315" src={`https://www.youtube.com/embed/${video.results[0].key}`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen />
                 ) : ( 
@@ -60,10 +59,7 @@ export default function YouTubeVideo({ type, isSeason }: { type: string, isSeaso
                     <p>Nenhum trailer encontrado.</p>
                 </div>
                 )
-            }
-
-            
-        </div>
-        
+            }            
+        </div>        
     )
 }
