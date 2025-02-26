@@ -38,16 +38,25 @@ export default function TitleHeader({ type }: { type: object }){
         <main className="lg-max:w-[85vw] 3xl:w-[90vw] h-[90vh] flex flex-col items-center justify-center relative z-9999 bg-slate-950 relative z-1">
             
             { 
-              type.backdrop_path ? 
+              type.backdrop_path ? (
                 <Image
-                  src={ `https://image.tmdb.org/t/p/original/${type.backdrop_path}` }
+                  src={`https://image.tmdb.org/t/p/original/${type.backdrop_path}`}
                   alt=""
                   width={1000}
                   height={1000}
-                  className="absolute w-full h-full z-2 object-cover blur-sm bg-slate-950 opacity-50" 
+                  className="absolute w-full h-full z-2 object-cover blur-sm bg-slate-950 opacity-50"
                 />
-              : <div className='absolute w-full h-[90vh] z-2 bg-gradient-to-r from-primaryBlack to-slate-950 opacity-50"'>
-              </div>
+              ) : type.poster_path ? (
+                <Image
+                  src={`https://image.tmdb.org/t/p/original/${type.poster_path}`}
+                  alt=""
+                  width={1000}
+                  height={1500}
+                  className="absolute w-full h-full z-2 object-cover bg-slate-950 opacity-50 blur-sm"
+                />
+              ) : (
+                <div className="absolute w-full h-[90vh] z-2 bg-gradient-to-r from-primaryBlack to-slate-950 opacity-50"></div>
+              )
             }
             
             <div className="flex flex-row w-full items-center justify-center relative z-4 p-4">
