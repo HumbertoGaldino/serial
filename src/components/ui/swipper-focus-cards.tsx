@@ -13,9 +13,10 @@ import { MdImageNotSupported } from "react-icons/md";
 
 type CardProps = {
   id: string,
-  title: string;
-  name: string;
+  title?: string;
+  name?: string;
   poster_path: string;
+  season_number?: number;
 }
 
 export const Card = React.memo(
@@ -25,14 +26,18 @@ export const Card = React.memo(
     hovered,
     setHovered,
     type = "movie",
+    isSeason = false,
+    idTvshow=''
   }: {
     card: CardProps;
     index: number;
     hovered: number | null;
     setHovered: React.Dispatch<React.SetStateAction<number | null>>;
     type?: string;
+    isSeason?: boolean;
+    idTvshow: string;
   }) => (
-    <Link href={`/${type}/${card.id}`} >
+    <Link href={isSeason ? `/${type}/${idTvshow}/season/${card.season_number}` : `/${type}/${card.id}`} >
       <div
         onMouseEnter={() => setHovered(index)}
         onMouseLeave={() => setHovered(null)}
@@ -45,7 +50,7 @@ export const Card = React.memo(
           card.poster_path ?
             <Image
               src={`https://image.tmdb.org/t/p/w500${card.poster_path}`}
-              alt={card.title}
+              alt={card.title ? card.title : card.name}
               fill
               className="object-cover absolute inset-0"
             />
@@ -61,8 +66,8 @@ export const Card = React.memo(
             hovered === index ? "opacity-100" : "opacity-0"
           )}
         >
-          <div className="text-xl md:text-2xl font-medium bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-200">
-            {card.title}
+          <div className="text-xl md:text-xl font-medium bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-200">
+            {card.title ? card.title : card.name}
           </div>
         </div>
       </div>
@@ -72,7 +77,7 @@ export const Card = React.memo(
 
 Card.displayName = "Card";
 
-export function SwipperFocusCards({ cards, type }: { cards: CardProps[]; type: string }) {
+export function SwipperFocusCards({ cards, type, isSeason, idTvshow }: { cards: CardProps[]; type: string, isSeason?: boolean, idTvshow?: string }) {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
@@ -96,6 +101,8 @@ export function SwipperFocusCards({ cards, type }: { cards: CardProps[]; type: s
             hovered={hovered}
             setHovered={setHovered}
             type={type}
+            isSeason={isSeason}
+            idTvshow={idTvshow}
           />
         </SwiperSlide>
       ))}

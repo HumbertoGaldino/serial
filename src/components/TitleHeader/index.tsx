@@ -4,7 +4,6 @@ import StarRating from '@/src/components/StarRatingProps';
 import ApprovalCircle from '@/src/components/ApprovalCircle';
 import { MdImageNotSupported } from "react-icons/md";
 
-
 import { Bebas_Neue, Athiti } from "next/font/google";
 const athiti = Athiti({
   subsets: ["latin"],
@@ -17,8 +16,13 @@ const bebasNeue = Bebas_Neue({
 });
 
 export default function TitleHeader({ type }: { type: object }){
-    let runTime;
-    const runtimeValue = type.runtime ?? type.last_episode_to_air?.runtime;
+    let runTime = null;
+    let runtimeValue = null;
+    if(type.episodes?.length > 0) {
+      runtimeValue = type.episodes[0].runtime;
+    } else {
+      runtimeValue = type.runtime ?? type.last_episode_to_air?.runtime;
+    }
 
     if (runtimeValue) {
       const hours = Math.floor(runtimeValue / 60);
@@ -56,9 +60,13 @@ export default function TitleHeader({ type }: { type: object }){
                   </h1>
                   <div className={`${athiti.className} flex flex-row gap-2 items-center justify-center font-medium`}>
                     <span>{type.release_date ? formatData(type.release_date) + ' (BR) |' : ''}</span>
-                    <span>{type.genres.map(
-                      (genre: { name: string }) => genre.name + " | "
-                    )}</span>
+                    {
+                      type.genres ?
+                      <span>{type.genres.map(
+                        (genre: { name: string }) => genre.name + " | "
+                      )}</span>
+                      : ''
+                    }
                     <span>
                       {runTime}
                     </span>
