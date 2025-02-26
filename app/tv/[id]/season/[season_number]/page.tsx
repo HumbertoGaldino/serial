@@ -136,7 +136,7 @@ export default function TvShowPage() {
       <div className="lg-max:w-[85vw] 3xl:w-[90vw]">
         <TitleHeader type={season} />
         <CastingCards type='tv'/>
-        <YouTubeVideo type='tv'/>
+        <YouTubeVideo type='tv' isSeason={true}/>
         <RecommendedTitles type='tv'/>
       </div>      
   );

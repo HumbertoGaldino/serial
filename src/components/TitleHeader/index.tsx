@@ -37,7 +37,7 @@ export default function TitleHeader({ type }: { type: object }){
     return (
         <main className="lg-max:w-[85vw] 3xl:w-[90vw] h-[90vh] flex flex-col items-center justify-center relative z-9999 bg-slate-950 relative z-1">
             
-            {
+            { 
               type.backdrop_path ? 
                 <Image
                   src={ `https://image.tmdb.org/t/p/original/${type.backdrop_path}` }
@@ -92,7 +92,6 @@ export default function TitleHeader({ type }: { type: object }){
                     <MdImageNotSupported className='text-secondary text-4xl' />
                   </div>
                 }
-                
               </div>
             </div>     
         </main>
