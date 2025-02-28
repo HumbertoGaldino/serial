@@ -13,7 +13,6 @@ import 'swiper/css/scrollbar';
 import 'swiper/css/navigation';
 import { Navigation, Scrollbar } from "swiper/modules";
 
-
 import { Bebas_Neue, Athiti } from "next/font/google";
 const athiti = Athiti({
   subsets: ["latin"],

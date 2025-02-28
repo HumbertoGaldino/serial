@@ -10,6 +10,8 @@ import TitleHeader from "@/src/components/TitleHeader";
 import CastingCards from "@/src/components/CastingCards";
 import YouTubeVideo from "@/src/components/YouTubeVideo";
 import RecommendedTitles from "@/src/components/RecommendedTitles";
+import EpisodesExpandableCards  from "@/src/components/EpisodesExpandableCards"
+
 
 // interface Genre {
 //   id: number;
@@ -147,6 +149,7 @@ export default function TvShowPage() {
     ):(
       <div className="lg-max:w-[85vw] 3xl:w-[90vw]">
         <TitleHeader type={season} />
+        <EpisodesExpandableCards episodes={season.season.episodes}/>
         <CastingCards type='tv'/>
         <YouTubeVideo type='tv' isSeason={true}/>
         <RecommendedTitles type='tv'/>

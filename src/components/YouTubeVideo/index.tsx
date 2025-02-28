@@ -53,7 +53,7 @@ export default function YouTubeVideo({ type, isSeason }: { type: string, isSeaso
                 <LoadingSpinner />
                 :
                 video?.results?.length > 0 ? ( 
-                    <iframe className="w-[90%] h-[80vh] rounded-lg" height="315" src={`https://www.youtube.com/embed/${video.results[0].key}`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen />
+                    <iframe className="w-[90%] h-[80vh] rounded-lg" height="315" src={`https://www.youtube.com/embed/${video.results[0].key}`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
                 ) : ( 
                 <div className="h-[40vh] text-white flex flex-col items-center justify-center">
                     <p>Nenhum trailer encontrado.</p>

@@ -20,20 +20,17 @@ export default function TitleHeader({ type }: { type: object }){
     let runtimeValue = null;
     if(type.episodes?.length > 0) {
       runtimeValue = type.episodes[0].runtime;
-    } else if(type.season.episodes.length > 0){
+    } else if(type.season?.episodes.length > 0){
       runtimeValue = type.season.episodes[0].runtime;
     } else {
       runtimeValue = type.runtime ?? type.last_episode_to_air?.runtime;
     }
-   
-    console.log(type);
 
     if (runtimeValue) {
       const hours = Math.floor(runtimeValue / 60);
       const minutes = runtimeValue % 60;
       runTime = hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
     }
-
 
     const formatData = (dateString: string) => {
       return dayjs(dateString).format("DD/MM/YYYY");
@@ -96,6 +93,15 @@ export default function TitleHeader({ type }: { type: object }){
 
               <div className="w-[30%]">
                 {
+                  type.season?
+                    <Image
+                      src={`https://image.tmdb.org/t/p/original/${type.season.poster_path}`}
+                      alt=""
+                      width={1000}
+                      height={1000}
+                      className="w-[16rem] h-[24rem] rounded-lg object-cover"
+                    />
+                  :
                   type.poster_path ?
                     <Image
                       src={`https://image.tmdb.org/t/p/original/${type.poster_path}`}
