@@ -2,21 +2,25 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { cn } from "@/src/lib/utils";
-import Link from 'next/link'
+import Link from "next/link";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import 'swiper/css/scrollbar';
-import 'swiper/css/navigation';
+import "swiper/css/scrollbar";
+import "swiper/css/navigation";
 import { Navigation, Scrollbar } from "swiper/modules";
 import { MdImageNotSupported } from "react-icons/md";
 
 type CardProps = {
-  id: string,
-  title: string;
-  name: string;
-  poster_path: string;
-}
+  id?: string;
+  idMovie?: string;
+  idTvShow?: string;
+  title?: string;
+  name?: string;
+  poster_path?: string;
+  posterPath?: string;
+  season_number?: number;
+};
 
 export const Card = React.memo(
   ({
@@ -25,54 +29,76 @@ export const Card = React.memo(
     hovered,
     setHovered,
     type = "movie",
+    isProfile = false,
+    isSeason = false,
+    idTvshow = "",
   }: {
     card: CardProps;
     index: number;
     hovered: number | null;
     setHovered: React.Dispatch<React.SetStateAction<number | null>>;
     type?: string;
-  }) => (
-    <Link href={`/${type}/${card.id}`} >
-      <div
-        onMouseEnter={() => setHovered(index)}
-        onMouseLeave={() => setHovered(null)}
-        className={cn(
-          "rounded-lg relative cursor-pointer bg-neutral-900 overflow-hidden w-[9rem] h-[14rem] transition-all duration-300 ease-out",
-          hovered !== null && hovered !== index && "blur-sm scale-[0.98]"
-        )}
-      >
-        {
-          card.poster_path ?
+    isProfile?: boolean;
+    isSeason?: boolean;
+    idTvshow?: string;
+  }) => {
+    const cardId = isProfile ? (type === "movie" ? card.idMovie : card.idTvShow) : card.id;
+    const posterPath = isProfile ? card.posterPath : card.poster_path;
+    const href = isSeason ? `/${type}/${idTvshow}/season/${card.season_number}` : `/${type}/${cardId}`;
+
+    return (
+      <Link href={href}>
+        <div
+          onMouseEnter={() => setHovered(index)}
+          onMouseLeave={() => setHovered(null)}
+          className={cn(
+            "rounded-lg relative cursor-pointer bg-neutral-900 overflow-hidden w-[9rem] h-[14rem] lg-max:w-[9rem] lg-max:h-[14rem] 3xl:w-[10rem] 3xl:h-[15rem] transition-all duration-300 ease-out",
+            hovered !== null && hovered !== index && "blur-sm scale-[0.98]"
+          )}
+        >
+          {posterPath ? (
             <Image
-              src={`https://image.tmdb.org/t/p/w500${card.poster_path}`}
-              alt={card.title}
+              src={`https://image.tmdb.org/t/p/w500${posterPath}`}
+              alt={card.title || card.name || "Imagem não disponível"}
               fill
               className="object-cover absolute inset-0"
             />
-          :
-          <div className="object-cover absolute inset-0 rounded-lg bg-primaryBlack flex items-center justify-center text-white text-center">
-            <MdImageNotSupported className='text-secondary text-4xl' />
-          </div>
-
-        }
-        <div
-          className={cn(
-            "absolute inset-0 bg-black/50 flex items-end py-8 px-4 transition-opacity duration-300",
-            hovered === index ? "opacity-100" : "opacity-0"
+          ) : (
+            <div className="object-cover absolute inset-0 rounded-lg bg-primaryBlack flex items-center justify-center text-white text-center">
+              <MdImageNotSupported className="text-secondary text-4xl" />
+            </div>
           )}
-        >
-          <div className="text-xl md:text-2xl font-medium bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-200">
-            {card.title}
+          <div
+            className={cn(
+              "absolute inset-0 bg-black/50 flex items-end py-8 px-4 transition-opacity duration-300",
+              hovered === index ? "opacity-100" : "opacity-0"
+            )}
+          >
+            <div className="text-xl md:text-xl font-medium bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-200">
+              {card.title || card.name}
+            </div>
           </div>
         </div>
-      </div>
-    </Link>
-  )
+      </Link>
+    );
+  }
 );
 
 Card.displayName = "Card";
 
-export function SwipperFocusCards({ cards, type }: { cards: CardProps[]; type: string }) {
+export function SwipperFocusCards({
+  cards,
+  type,
+  isProfile,
+  isSeason,
+  idTvshow,
+}: {
+  cards: CardProps[];
+  type: string;
+  isProfile?: boolean;
+  isSeason?: boolean;
+  idTvshow?: string;
+}) {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
@@ -80,6 +106,8 @@ export function SwipperFocusCards({ cards, type }: { cards: CardProps[]; type: s
       spaceBetween={10}
       slidesPerView={1}
       breakpoints={{
+        1720: { slidesPerView: 8 },
+        1170: { slidesPerView: 6 },
         768: { slidesPerView: 6 },
       }}
       scrollbar={true}
@@ -88,7 +116,7 @@ export function SwipperFocusCards({ cards, type }: { cards: CardProps[]; type: s
       className="w-full"
     >
       {cards.map((card, index) => (
-        <SwiperSlide key={card.title}>
+        <SwiperSlide key={card.title || card.name}>
           <Card
             key={type === "movie" ? card.title : card.name}
             card={card}
@@ -96,6 +124,9 @@ export function SwipperFocusCards({ cards, type }: { cards: CardProps[]; type: s
             hovered={hovered}
             setHovered={setHovered}
             type={type}
+            isProfile={isProfile}
+            isSeason={isSeason}
+            idTvshow={idTvshow || ""}
           />
         </SwiperSlide>
       ))}

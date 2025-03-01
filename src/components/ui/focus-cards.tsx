@@ -38,6 +38,7 @@ export const Card = React.memo(
         src={`https://image.tmdb.org/t/p/w500${card.poster_path}`}
         alt={type === "movie" ? card.title : card.name}
         fill
+        sizes="14rem"
         className="object-cover absolute inset-0"
       />
       <div

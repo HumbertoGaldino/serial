@@ -4,23 +4,30 @@ import { FaYoutube } from "react-icons/fa";
 import { Bebas_Neue } from "next/font/google";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import { fetchVideo } from "@/app/actions/fetchVideo";
+import { fetchVideoSeason } from "@/app/actions/fetchVideoSeason";
 
 const bebasNeue = Bebas_Neue({
   subsets: ["latin"],
   weight: ["400"],
 });
 
-export default function YouTubeVideo({ type }: { type: string }){
-    const { id } = useParams();
+export default function YouTubeVideo({ type, isSeason }: { type: string, isSeason: boolean }){
+    const { id, season_number } = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const [video, setVideo] = useState<object>();
 
     useEffect(() => {
         const fetchVideoData = async () => {
-          try {              
-            const data = await fetchVideo(id,type);
-            
-            setVideo(data);
+          try {
+            const data = isSeason 
+              ? await fetchVideoSeason(id, season_number) 
+              : await fetchVideo(id, type);
+
+            if (!isSeason || data.results?.length > 0) {
+              setVideo(data);
+            } else {
+              setVideo(await fetchVideo(id, type));
+            }           
           } catch (error) {
             console.error("Erro ao buscar o filme:", error);
           }
@@ -32,12 +39,8 @@ export default function YouTubeVideo({ type }: { type: string }){
 
 
 
-    return isLoading ? (
-        <div className="flex flex-col lg-max:max-w-[85vw] 3xl:max-w-[90vw] items-center justify-center flex-1 relative z-9999 bg-slate-950 relative z-1">
-            <LoadingSpinner />
-        </div>
-      ):(
-        <div className="flex flex-col lg-max:w-[85vw] 3xl:w-[90vw] items-center justify-center flex-1 relative z-9999 bg-slate-950 relative z-1 p-4">
+    return (
+        <div className="flex flex-col lg-max:w-[85vw] 3xl:w-[90vw] items-center justify-center flex-1 relative z-9999 bg-slate-950 relative z-1 p-6">
             
             <h2
               className={`${bebasNeue.className} w-[95%] flex flex-row bg-opacity-70 text-primary 3xl:text-[4em] 3xl:tracking-[0.3em] 3xl:mb-10 lg-max:text-[2em] lg-max:tracking-[0.3em] lg-max:mb-5 border-b-4 border-primary`}
@@ -46,17 +49,17 @@ export default function YouTubeVideo({ type }: { type: string }){
               Trailer
             </h2>
             {
+              isLoading ?
+                <LoadingSpinner />
+                :
                 video?.results?.length > 0 ? ( 
-                    <iframe className="w-[90%] h-[80vh] rounded-lg" height="315" src={`https://www.youtube.com/embed/${video.results[0].key}`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen />
+                    <iframe className="w-[90%] h-[80vh] rounded-lg" height="315" src={`https://www.youtube.com/embed/${video.results[0].key}`} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
                 ) : ( 
                 <div className="h-[40vh] text-white flex flex-col items-center justify-center">
                     <p>Nenhum trailer encontrado.</p>
                 </div>
                 )
-            }
-
-            
-        </div>
-        
+            }            
+        </div>        
     )
 }

@@ -66,5 +66,14 @@
     "popularity": "Popularidade",
     "vote-average": "Média de Votos",
     "vote-count": "Contagem de Votos"
+  },
+  "TvShow": {
+    "title": "Série",
+    "overview": "Sinopse",
+    "genres": "Gêneros",
+    "cast": "Elenco",
+    "director": "Diretor",
+    "release-date": "Data de Lançamento",
+    "runtime": "Duração"
   }
 }
