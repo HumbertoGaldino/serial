@@ -9,7 +9,6 @@ import { BsEyeFill } from "react-icons/bs";
 import dayjs from "dayjs";
 
 import { Bebas_Neue, Athiti } from "next/font/google";
-import Countdown from "../Countdown";
 const athiti = Athiti({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -45,6 +44,24 @@ export default function EpisodesExpandableCards ({ episodes }) {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [activeEpisode]);
+
+  function Countdown({ targetDate }: { targetDate: string }): number {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const targetParts = targetDate.split("-");
+    const target = new Date(
+      Number(targetParts[0]),
+      Number(targetParts[1]) - 1,
+      Number(targetParts[2])
+    );
+
+    const diffTime = target.getTime() - today.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    return diffDays;
+  }
+
 
   return (
     <div className="lg-max:max-w-[85vw] 3xl:max-w-[90vw] p-6 flex flex-col items-center gap-4 relative z-1 bg-slate-950">
@@ -98,7 +115,10 @@ export default function EpisodesExpandableCards ({ episodes }) {
                 new Date(episode.air_date) < new Date() ? (
                   <BsEyeFill className="absolute right-7 text-white text-3xl hover:text-secondary" />
                 ) : (
-                  <Countdown targetDate={episode.air_date} />
+                  <div className={`${bebasNeue.className} flex flex-col text-white text-right absolute right-7 top-10`}>
+                    <p className="text-3xl -mb-2">{Countdown({ targetDate: episode.air_date })}</p>
+                    <span>dias</span>
+                  </div>
                 )
               }
             </div>
