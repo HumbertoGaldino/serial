@@ -16,21 +16,30 @@ const bebasNeue = Bebas_Neue({
 });
 
 export default function TitleHeader({ type }: { type: object }){
-    let runTime = null;
-    let runtimeValue = null;
-    if(type.episodes?.length > 0) {
-      runtimeValue = type.episodes[0].runtime;
-    } else if(type.season?.episodes.length > 0){
-      runtimeValue = type.season.episodes[0].runtime;
-    } else {
-      runtimeValue = type.runtime ?? type.last_episode_to_air?.runtime;
+
+  const getRuntimeValue = (type: any): number | null => {
+
+    if (type.episodes?.length > 0) {
+      return type.episodes[0].runtime;
     }
+
+    if (type.season?.episodes?.length > 0) {
+      return type.season.episodes[0].runtime;
+    }
+
+    return type.runtime ?? type.last_episode_to_air?.runtime ?? null;
+    };
+
+  const runtimeValue = getRuntimeValue(type);
+  let runTime = null;
 
     if (runtimeValue) {
       const hours = Math.floor(runtimeValue / 60);
       const minutes = runtimeValue % 60;
       runTime = hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
     }
+
+    console.log(type)
 
     const formatData = (dateString: string) => {
       return dayjs(dateString).format("DD/MM/YYYY");
@@ -40,7 +49,7 @@ export default function TitleHeader({ type }: { type: object }){
         <main className="lg-max:w-[85vw] 3xl:w-[90vw] h-[90vh] flex flex-col items-center justify-center relative z-9999 bg-slate-950 relative z-1">
             
             { 
-              type.backdrop_path ? (
+              type.backdrop_path != null ? (
                 <Image
                   src={`https://image.tmdb.org/t/p/original/${type.backdrop_path}`}
                   alt=""
@@ -48,7 +57,7 @@ export default function TitleHeader({ type }: { type: object }){
                   height={1000}
                   className="absolute w-full h-full z-2 object-cover blur-sm bg-slate-950 opacity-50"
                 />
-              ) : type.poster_path ? (
+              ) : type.poster_path != null ? (
                 <Image
                   src={`https://image.tmdb.org/t/p/original/${type.poster_path}`}
                   alt=""
@@ -93,7 +102,7 @@ export default function TitleHeader({ type }: { type: object }){
 
               <div className="w-[30%]">
                 {
-                  type.season?
+                  type.season && type.season.poster_path ?
                     <Image
                       src={`https://image.tmdb.org/t/p/original/${type.season.poster_path}`}
                       alt=""
